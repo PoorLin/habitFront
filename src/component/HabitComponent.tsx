@@ -1,12 +1,27 @@
 import { faPlus, fas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FC, useState } from "react";
+import { ChangeEventHandler, FC, useState } from "react";
+import { createHabitAPI } from "../api/habitAPI";
+import { Habit, NewHabit } from "../model/habit";
+import { EditHabit } from "./EditHabit";
 
-export const Habit: FC = () => {
+export const HabitComponent: FC = () => {
+
+
     const [creating, setCreating] = useState<boolean>(false);
-    const handCreate: React.MouseEventHandler<SVGSVGElement> = () => {
+    const showCreate: React.MouseEventHandler<SVGSVGElement> = () => {
         setCreating(true);
     }
+    
+    const handleCreateNewHabit = (newHabitName:string) =>{
+        console.log(newHabitName)
+        createHabitAPI({
+            userId: 1,
+            habitName: newHabitName
+        });
+        setCreating(false); 
+    }
+    
 
 
     return (
@@ -46,16 +61,19 @@ export const Habit: FC = () => {
 
                 {
                     creating && <div>
-                        <label htmlFor="">習慣名稱: </label>
-                        <input type="text" />
-                        <a > <FontAwesomeIcon icon={fas. faFloppyDisk} /></a>  <a><FontAwesomeIcon icon={fas.faTrash} /></a>
+                       <EditHabit onSave={handleCreateNewHabit} />
                     </div>
 
                 }
-                <div>
-                    <a > <FontAwesomeIcon icon={fas.faPlus} onClick={handCreate} /></a>
 
-                </div>
+                {
+                    !creating &&
+ <div>
+ <a > <FontAwesomeIcon icon={fas.faPlus} onClick={showCreate} /></a>
+
+</div>
+                }
+               
             </div>
         </div>
 

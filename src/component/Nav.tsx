@@ -2,7 +2,8 @@ import { FC, MouseEventHandler, useState } from "react";
 import image from '../assets/atom.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { Habit } from "./Habit";
+import { Habit } from "./HabitComponent";
+import { Link, Outlet } from "react-router-dom";
 
 
 export const Nav:FC = () =>{
@@ -20,7 +21,7 @@ export const Nav:FC = () =>{
     
     
     return(
-       
+       <div>
         <nav className="navbar is-dark justify-content-space-between" role="navigation" aria-label="main navigation">
   <div className="navbar-brand">
     <a className="navbar-item " >
@@ -57,9 +58,7 @@ export const Nav:FC = () =>{
     <div className="navbar-end">
       <div className="navbar-item">
         <div className="buttons">
-          <a className="button is-primary has-text-weight-bold" onClick={handleOpenModal}>
-            <strong>Sign up</strong>
-          </a>
+       
           <a className="button is-light has-text-weight-bold" onClick={handleOpenModal}>
             Log in
           </a>
@@ -81,7 +80,7 @@ export const Nav:FC = () =>{
                         <label htmlFor="" className="has-text-black is-size-4	">密碼</label>
                         <input type="text" name="" id="" className="input"/>
                         <div className="column is-6">    <a href=""><FontAwesomeIcon icon={faGoogle}/>登入</a></div>
-                    
+                        <a href="createUser">還沒有帳號?</a>
                         
                     </section>
                     <footer className="modal-card-foot">
@@ -92,5 +91,7 @@ export const Nav:FC = () =>{
 
 </nav>
 
+<Outlet/>
+</div>
     )
 }

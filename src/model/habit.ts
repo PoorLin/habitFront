@@ -1,3 +1,7 @@
 export interface Habit{
-habit
+habitId?:number,
+userId:number,
+habitName:string,
+startDate?:Date
 }
+

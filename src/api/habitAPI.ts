@@ -1,8 +1,9 @@
 import axios from "axios";
+import { Habit} from "../model/habit";
 
-const baseUrl = 'http://172.20.10.3:8081/atomicHabits/habit'
+const baseUrl = 'http://172.20.10.9:8081/atomicHabits/habit'
 
-const getHabit = async () =>{
+export const getHabit = async () =>{
     return axios.get(
      `${baseUrl}/1`,
 {
@@ -11,4 +12,11 @@ const getHabit = async () =>{
     
 }
   );
+}
+
+
+export const createHabitAPI = async (habit:Habit):Promise<Habit> =>{
+  const habitId = (await axios.post<{id:number}>( `${baseUrl}/addHabit`,habit)).data.id
+
+  return {...habit,habitId};
 }
