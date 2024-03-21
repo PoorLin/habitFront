@@ -4,6 +4,7 @@ import { ChangeEventHandler, FC, MouseEventHandler, useState } from "react";
 import { createUserAPI } from "../api/UserAPI";
 import { BackEndReturn } from "../model/BackEndReturn";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 export const CreateUser:FC = () =>{
     const navigate = useNavigate();
@@ -32,7 +33,14 @@ export const CreateUser:FC = () =>{
         if(sex !== undefined){
              const result=await createUserAPI({email,secret,userName,sex})
             if(result.returnCode == 200){
+              Swal.fire({
+                title: "成功建立帳號!",
+                text: "您現在可以登入!",
+                icon: "success"
+              }).then(()=>{
                 navigate("/atomicHabit")
+              });
+                
             }
    
             
@@ -43,7 +51,17 @@ export const CreateUser:FC = () =>{
 
     
     return(
-   <div className="mt-5">
+   <div className="mt columns is-multiline  ">
+    <div className="p-0 column is-12 ">
+    <section className="section p-5">
+  <h1 className="title ">建立帳號</h1>
+  <h2 className="subtitle">
+    開始打造理想生活
+  </h2>
+</section>
+    </div>
+  
+    <div className="column is-6 ml-3">
    <label htmlFor=""> 信箱: </label>
   <p className="control has-icons-left has-icons-right">
    
@@ -52,16 +70,19 @@ export const CreateUser:FC = () =>{
         <FontAwesomeIcon icon={fas.faEnvelope} />
     </span>
   </p>
-
+  </div>
+  <hr />
+  <div className="column is-6 ml-3">
   <label htmlFor=""> 密碼: </label>
   <p className="control has-icons-left">
  
-    <input className="input" type="Secret" placeholder="Secret" onChange={handlePassChange}/>
+    <input className="input" type="password" placeholder="password" onChange={handlePassChange}/>
     <span className="icon is-small is-left">
     <FontAwesomeIcon icon={fas.faLock} />
     </span>
   </p>
-
+  </div >
+  <div className="column is-6 ml-3">
   <label htmlFor=""> 使用者名稱: </label>
   <p className="control has-icons-left">
  
@@ -70,7 +91,8 @@ export const CreateUser:FC = () =>{
     <FontAwesomeIcon icon={fas.faUser} />
     </span>
   </p>
-  <div>
+  </div>
+  <div className="column is-12 ml-3">
   <label className="radio">
   <input type="radio" name="sex" onChange={handleSexChange} value="1"/>
   男
@@ -81,9 +103,10 @@ export const CreateUser:FC = () =>{
 </label>
 
   </div>
-  <button className="button" onClick={handleSubmit}>送出</button>
+   <div className="column is-12 ml-3">
+  <button className="button is-clearfix" onClick={handleSubmit}>送出</button>
  
-
+  </div>
 </div>
    
     )
