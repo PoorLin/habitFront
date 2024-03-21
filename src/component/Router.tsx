@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { Nav } from "./Nav"
 import { HabitComponent } from "./HabitComponent"
 import { CreateUser } from "./CreateUser"
+import { Index } from "./Index"
 
 export const Router: FC = () => {
     const router = createBrowserRouter([
@@ -16,6 +17,8 @@ export const Router: FC = () => {
                     path: '*', element:<h1>404</h1>
                 },{
                     path: 'createUser',element: <CreateUser/>
+                },{
+                    path: 'atomicHabit',element: <Index/>
                 }
                 
             ]

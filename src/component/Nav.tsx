@@ -2,11 +2,35 @@ import { FC, MouseEventHandler, useState } from "react";
 import image from '../assets/atom.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { Habit } from "./HabitComponent";
 import { Link, Outlet } from "react-router-dom";
+import { GoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
+import { test } from "../utils/jwt";
+import { getGoogleKey, loginAPI } from "../api/UserAPI";
+import { verify } from "jsonwebtoken";
+import { useMyContext } from "../auth/AuthProvider";
 
 
 export const Nav:FC = () =>{
+
+  useGoogleOneTapLogin({
+    onSuccess: credentialResponse => {
+      console.log(456);
+      console.log(credentialResponse);
+      // if(credentialResponse !== undefined){
+      //   const credential = credentialResponse?.credential;
+         //parseToken(credentialResponse.credential!);
+      // }
+        
+     // test(credentialResponse.credential!);
+          // test();
+        loginAPI({secret:"123456",email:"jack@gmail.com"})
+    },
+    onError: () => {
+
+    },
+  });
+
+
     const [className, setClassName] = useState<string>('modal');
     const [habitPage, setHabitPage] = useState<boolean>(false);
     const handleOpenModal:MouseEventHandler<HTMLAnchorElement> = () => {
@@ -24,10 +48,10 @@ export const Nav:FC = () =>{
        <div>
         <nav className="navbar is-dark justify-content-space-between" role="navigation" aria-label="main navigation">
   <div className="navbar-brand">
-    <a className="navbar-item " >
+    <a className="navbar-item " href="../atomicHabit">
       <img src={image} />
     </a>
-    <a className="navbar-item pl-0" >
+    <a className="navbar-item pl-0" href="../atomicHabit">
       原子習慣
     </a>
 
@@ -79,12 +103,22 @@ export const Nav:FC = () =>{
                         <input type="text" name="" id="" className="input"/>
                         <label htmlFor="" className="has-text-black is-size-4	">密碼</label>
                         <input type="text" name="" id="" className="input"/>
-                        <div className="column is-6">    <a href=""><FontAwesomeIcon icon={faGoogle}/>登入</a></div>
+                       
                         <a href="createUser">還沒有帳號?</a>
                         
                     </section>
                     <footer className="modal-card-foot">
                         <button className="button is-success">登入</button>
+                        <GoogleLogin
+  onSuccess={credentialResponse => {
+    console.log(credentialResponse);
+    console.log(123);
+    
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>
                     </footer>
                 </div>
             </div>
@@ -94,4 +128,8 @@ export const Nav:FC = () =>{
 <Outlet/>
 </div>
     )
+}
+
+function parseToken(arg0: any) {
+  throw new Error("Function not implemented.");
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Habit} from "../model/habit";
 
-const baseUrl = 'http://172.20.10.9:8081/atomicHabits/habit'
+const baseUrl = 'http://172.20.10.3:8081/atomicHabits/habit'
 
 export const getHabit = async () =>{
     return axios.get(
