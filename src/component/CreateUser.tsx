@@ -32,7 +32,7 @@ export const CreateUser:FC = () =>{
         if(sex !== undefined){
              const result=await createUserAPI({email,secret,userName,sex})
             if(result.returnCode == 200){
-                navigate("../atomicHabit")
+                navigate("/atomicHabit")
             }
    
             

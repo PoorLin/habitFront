@@ -1,81 +1,101 @@
 import { faPlus, fas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEventHandler, FC, useState } from "react";
-import { createHabitAPI } from "../api/habitAPI";
+import { ChangeEventHandler, FC, MouseEventHandler, useEffect, useState } from "react";
+import { createHabitAPI, deleteUserHabit, getUserHabit } from "../api/habitAPI";
 import { Habit, NewHabit } from "../model/habit";
 import { EditHabit } from "./EditHabit";
+import Cookies from 'js-cookie';
+import { HabitProp } from "../model/EditProp";
+
 
 export const HabitComponent: FC = () => {
+    const [habitArr,setHabitArr] = useState<HabitProp[]>([])
+    useEffect(() => {
+        const fetchData = async () => {
+            const userId=Cookies.get('userId')
+            const res=await getUserHabit(parseInt(userId!));
+            setHabitArr(res.data);
+        };
+         fetchData();
+      }, []);
 
 
     const [creating, setCreating] = useState<boolean>(false);
-    const showCreate: React.MouseEventHandler<SVGSVGElement> = () => {
+    const showCreate: MouseEventHandler<HTMLAnchorElement> = () => {
         setCreating(true);
     }
     
-    const handleCreateNewHabit = (newHabitName:string) =>{
-        console.log(newHabitName)
-        createHabitAPI({
-            userId: 1,
+    const handleCreateNewHabit =async (newHabitName:string) =>{
+        const userId=parseInt(Cookies.get('userId')!) ;
+        const setToHabit=await createHabitAPI({
+            userId:userId,
             habitName: newHabitName
         });
+        const setToArr:HabitProp = setToHabit.data;
+        setHabitArr([...habitArr,setToArr]);
         setCreating(false); 
+    }
+    const handleOnCancel = () =>{
+     setCreating(false);
     }
     
 
 
     return (
-        <div className="columns">
-            <div className="column is-2">
-                <aside className="menu">
-                    <p className="menu-label">
-                        General
-                    </p>
-                    <ul className="menu-list">
-                        <li><a>Dashboard</a></li>
-                        <li><a>Customers</a></li>
-                    </ul>
-                    <p className="menu-label">
-                        Administration
-                    </p>
-                    <ul className="menu-list">
-                        <li><a>Team Settings</a></li>
-                        <li><a>Invitations</a></li>
-                        <li><a>Cloud Storage Environment Settings</a></li>
-                        <li><a>Authentication</a></li>
-                    </ul>
-                    <p className="menu-label">
-                        Transactions
-                    </p>
-                    <ul className="menu-list">
-                        <li><a>Payments</a></li>
-                        <li><a>Transfers</a></li>
-                        <li><a>Balance</a></li>
-                    </ul>
-                </aside>
+
+         
+            <div >
                 <div>
+            {habitArr?.length!>0 && (
+        <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth mt-6">
+          <thead>
+            <tr>
+              <th className="has-text-centered">名稱</th>
+              <th className="has-text-centered">建立日期</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {habitArr.map(item => (
 
-                </div>
-            </div>
-            <div className="column is-8">
-
+              <tr key={item.habitId}>
+                <td className="has-text-centered">{item.habitName}</td>
+                <td className="has-text-centered">{item.startDate.toString().substring(0, 10)}</td>
+                <td className="has-text-centered"><FontAwesomeIcon icon={fas.faEdit} /><FontAwesomeIcon icon={fas.faTrash}  className="ml-5" 
+                onClick={async()=>{await deleteUserHabit(item.habitId) 
+                    const indexToDelete = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
+                    
+                    if (indexToDelete !== -1) {
+                        const updatedArr = [...habitArr]; 
+                        updatedArr.splice(indexToDelete, 1); 
+                        setHabitArr(updatedArr); 
+                      }
+                }}
+                /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+           </div>  
+                <div className="m-6">
                 {
                     creating && <div>
-                       <EditHabit onSave={handleCreateNewHabit} />
+                       <EditHabit onSave={handleCreateNewHabit} onCancel={handleOnCancel}/>
                     </div>
 
                 }
-
+</div>
                 {
                     !creating &&
- <div>
- <a > <FontAwesomeIcon icon={fas.faPlus} onClick={showCreate} /></a>
+ <div className="m-6">
+ <a onClick={showCreate}>養成新習慣 <FontAwesomeIcon icon={fas.faPlus}  /></a>
 
 </div>
                 }
                
             </div>
-        </div>
+   
 
 
 

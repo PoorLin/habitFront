@@ -1,9 +1,17 @@
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEventHandler, FC, MouseEventHandler, useState } from "react"
+import { ChangeEventHandler, FC, MouseEventHandler, useEffect, useState } from "react"
 import { EditProp } from "../model/EditProp";
 
+
+
 export const EditHabit:FC<EditProp> = (editProp) =>{
+
+
+
+
+    
+    
     const [newHabitName, setNewHabit] = useState<string>('');
     const handleNewHabitOnchange:ChangeEventHandler<HTMLInputElement> = (e) =>{
         setNewHabit(e.target.value);
@@ -11,11 +19,14 @@ export const EditHabit:FC<EditProp> = (editProp) =>{
     const handleClickSave:MouseEventHandler<SVGSVGElement> = ()=>{
        editProp.onSave(newHabitName);
     }
+    const handleOncancel:MouseEventHandler<SVGSVGElement> = ()=>{
+        editProp.onCancel();
+     }
     return(
         <>
           <label htmlFor="">習慣名稱: </label>
                         <input type="text" onChange={handleNewHabitOnchange} value={newHabitName}/>
-                        <a > <FontAwesomeIcon icon={fas. faFloppyDisk} onClick={handleClickSave}/></a>  <a><FontAwesomeIcon icon={fas.faTrash} /></a>
+                        <a > <FontAwesomeIcon icon={fas. faFloppyDisk} onClick={handleClickSave}/></a>  <a><FontAwesomeIcon icon={fas.faTrash} onClick={handleOncancel} /></a>
         </>
     )
 } 

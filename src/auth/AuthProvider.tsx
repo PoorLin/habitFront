@@ -1,18 +1,19 @@
 import { FC, PropsWithChildren, createContext, useContext, useState } from "react"
 
 interface AuthContextProps{
-    token:string
+    token:string|undefined
 
+    updateToken:(token:string)=>void
 }
-const AuthContext = createContext<AuthContextProps>(undefined!);
+export const AuthContext = createContext<AuthContextProps>(undefined!);
 
 export const AuthProvider:FC<PropsWithChildren> = ({children}) =>{
-    const [token1, setToken] = useState<string>();
-    const updateData = (token:string) => {
+    const [token, setToken] = useState<string | undefined>();
+    const updateToken = (token:string) => {
         setToken(token);
       };
 return(
-    <AuthContext.Provider value={{token: ''}}>
+    <AuthContext.Provider value={{token,updateToken}}>
         {children}
 
     </AuthContext.Provider>
