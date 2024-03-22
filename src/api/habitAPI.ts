@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EditHabit, EditHabitStatus, Habit, HabitStatus } from "../model/habit";
+import { EditHabit, EditHabitStatus, Habit, HabitStatus, MakeChartProp } from "../model/habit";
 import { BackEndReturn } from "../model/BackEndReturn";
 
 const baseUrl = 'http://192.168.56.1:8081/atomicHabits/habit'
@@ -24,9 +24,19 @@ export const updateHabitAPI = async (habit: EditHabit): Promise<BackEndReturn> =
   return ((await axios.put(`${baseUrl}/${habit.habitId}`, habit)).data)
 }
 export const updateHabitStatusAPI = async (habit: EditHabitStatus): Promise<BackEndReturn> => {
-  console.log(habit)
   return ((await axios.put(`${baseUrl}/updateHabitStatus`, habit)).data)
 }
+
+export const makeChartAPI = async (prop: MakeChartProp): Promise<BackEndReturn> => {
+  return ((await axios.post(`${baseUrl}/makeChart`, prop)).data)
+}
+
+
+
+
+
+
+
 
 
 

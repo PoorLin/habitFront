@@ -1,12 +1,11 @@
 import { FC, MouseEventHandler, useEffect, useState, useContext } from "react";
 import image from '../assets/atom.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { GoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
-import { forgotPassAPI, getGoogleKey, loginAPI, resetPassAPI } from "../api/UserAPI";
+import { Outlet, useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import { forgotPassAPI, loginAPI, resetPassAPI } from "../api/UserAPI";
 import Cookies from 'js-cookie';
 import { UserReturn } from "../model/UserReturn";
-import { AuthContext, AuthProvider } from "../auth/AuthProvider";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
 
@@ -96,8 +95,8 @@ export const Nav: FC = () => {
      Swal.fire({
             title: '修改密碼',
             html:
-              '<input id="input1" class="swal2-input" placeholder="輸入密碼">' +
-              '<input id="input2" type="password" class="swal2-input" placeholder="再次輸入密碼">',
+              '<label>第一次輸入<label/> <input id="input1" type="password" class="swal2-input" placeholder="輸入密碼">' +
+              '<label>第一次輸入<label/><input id="input2" type="password" class="swal2-input" placeholder="再次輸入密碼">',
             showCancelButton: true,
             confirmButtonText: '送出',
             cancelButtonText: '取消',
@@ -229,11 +228,11 @@ export const Nav: FC = () => {
 
         <div id="navbarBasicExample" className="navbar-menu ">
           <div className="navbar-start">
-            <a className="navbar-item has-text-weight-bold pr-6">
+            <a className="navbar-item has-text-weight-bold pr-6" href="/AH/home">
               首頁
             </a>
 
-            <a className="navbar-item has-text-weight-bold pr-6">
+            <a className="navbar-item has-text-weight-bold pr-6" href="/AH/home">
               關於
             </a>
             {/* <a className="navbar-item has-text-weight-bold pr-6" href="/AH/habitCard">
@@ -255,12 +254,12 @@ export const Nav: FC = () => {
 
 
                 <div className="navbar-dropdown">
-                  <a className="navbar-item" onClick={handleToProfile}>
+                  {/* <a className="navbar-item" onClick={handleToProfile}>
                     個人資訊
-                  </a>
-                  <a className="navbar-item">
+                  </a> */}
+                  {/* <a className="navbar-item">
                     Jobs
-                  </a>
+                  </a> */}
                  
                   <hr className="navbar-divider" />
                   <a className="navbar-item" onClick={handleLogOut}>
@@ -285,6 +284,7 @@ export const Nav: FC = () => {
           <div className="modal-card ">
             <header className="modal-card-head ">
               <p className="modal-card-title ">登入</p>
+              
               <button className="delete" aria-label="close" onClick={handleBtnCloseModal}></button>
             </header>
             <section className="modal-card-body">
