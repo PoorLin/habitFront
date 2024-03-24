@@ -1,13 +1,14 @@
 import { FC, MouseEventHandler, useEffect, useState, useContext } from "react";
-import image from '../assets/atom.png';
+import image from '../assets/wtsWhiteFont.jpg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Outlet, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-import { forgotPassAPI, loginAPI, resetPassAPI } from "../api/UserAPI";
+import { forgotPassAPI, loginAPI, loginByGoogleAPI, resetPassAPI } from "../api/UserAPI";
 import Cookies from 'js-cookie';
 import { UserReturn } from "../model/UserReturn";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
+
 
 
 export const Nav: FC = () => {
@@ -42,6 +43,9 @@ export const Nav: FC = () => {
   const handleBtnCloseModal: MouseEventHandler<HTMLButtonElement> = () => {
     setClassName("modal")
   }
+  const handleBtnOpenModal: MouseEventHandler<HTMLButtonElement> = () => {
+    setClassName("modal is-active")
+  }
   const handleRedirectTOHabitPage: MouseEventHandler<HTMLAnchorElement> = () => {
     setIsFromHabit(true);
     if (islogin) {
@@ -50,7 +54,7 @@ export const Nav: FC = () => {
       setClassName("modal is-active")
     }
   }
-  const handleBtnForgotPass  = () => {
+  const handleBtnForgotPass = () => {
     setClassName("modal")
 
     Swal.fire({
@@ -65,116 +69,105 @@ export const Nav: FC = () => {
       cancelButtonText: "取消",
       showLoaderOnConfirm: true,
       preConfirm: async (email) => {
-      
-       const res=await forgotPassAPI({email});
-       if(res.returnCode === 200){
-        Swal.fire({
-          title: "驗證信已寄出!",
-          text: "若還沒收到請您大概再稍等30秒~1分鐘，謝謝!",
-          icon: "success"
-        }).then(()=>{
-          const expirationDate = new Date();
-          expirationDate.setTime(expirationDate.getTime() + (15 * 60 * 1000));
-          Cookies.set('authForgot', res.data, { expires: expirationDate });
+
+        const res = await forgotPassAPI({ email });
+        if (res.returnCode === 200) {
           Swal.fire({
-            title: "輸入驗證碼",
-            input: "text",
-            inputValue: "",
-            inputAttributes: {
-              autocapitalize: "off"
-            },
-            showCancelButton: true,
-            confirmButtonText: "送出",
-            cancelButtonText: "取消",
-            showLoaderOnConfirm: true,
-            preConfirm: async (authForgot) => {
-            const secret = Cookies.get('authForgot')
-          if(secret !==authForgot){
-            return Swal.showValidationMessage(`   驗證碼錯誤  `);
-          }else{
-     Swal.fire({
-            title: '修改密碼',
-            html:
-              '<label>第一次輸入<label/> <input id="input1" type="password" class="swal2-input" placeholder="輸入密碼">' +
-              '<label>第一次輸入<label/><input id="input2" type="password" class="swal2-input" placeholder="再次輸入密碼">',
-            showCancelButton: true,
-            confirmButtonText: '送出',
-            cancelButtonText: '取消',
-            showLoaderOnConfirm: true,
-            preConfirm: async () => {
-              const input1 = document.getElementById('input1') as HTMLInputElement;
-              const input2 = document.getElementById('input2') as HTMLInputElement;
-          
-              const secret = input1.value;
-              const secret2 = input2.value;
-             if(secret !== secret2){
-              return Swal.showValidationMessage(`   密碼不一致  `);
-             }else{
+            title: "驗證信已寄出!",
+            text: "若還沒收到請您大概再稍等30秒~1分鐘，謝謝!",
+            icon: "success"
+          }).then(() => {
+            const expirationDate = new Date();
+            expirationDate.setTime(expirationDate.getTime() + (15 * 60 * 1000));
+            Cookies.set('authForgot', res.data, { expires: expirationDate });
+            Swal.fire({
+              title: "輸入驗證碼",
+              input: "text",
+              inputValue: "",
+              inputAttributes: {
+                autocapitalize: "off"
+              },
+              showCancelButton: true,
+              confirmButtonText: "送出",
+              cancelButtonText: "取消",
+              showLoaderOnConfirm: true,
+              preConfirm: async (authForgot) => {
+                const secret = Cookies.get('authForgot')
+                if (secret !== authForgot) {
+                  return Swal.showValidationMessage(`   驗證碼錯誤  `);
+                } else {
+                  Swal.fire({
+                    title: '修改密碼',
+                    html:
+                      '<label>第一次輸入<label/> <input id="input1" type="password" class="swal2-input" placeholder="輸入密碼">' +
+                      '<label>第一次輸入<label/><input id="input2" type="password" class="swal2-input" placeholder="再次輸入密碼">',
+                    showCancelButton: true,
+                    confirmButtonText: '送出',
+                    cancelButtonText: '取消',
+                    showLoaderOnConfirm: true,
+                    preConfirm: async () => {
+                      const input1 = document.getElementById('input1') as HTMLInputElement;
+                      const input2 = document.getElementById('input2') as HTMLInputElement;
 
-             const res=await resetPassAPI({secret,email});
-             if(res.returnCode === 200){
-              Swal.fire({
-                title: "修改密碼成功!",
-                text: " ",
-                icon: "success"
-              });
-             }else{
-              Swal.fire({
-                icon: "error",
-                title: "發生錯誤",
-                text: "請稍後再試",
-              });
-             }
-             
-             }
-              
-            }
+                      const secret = input1.value;
+                      const secret2 = input2.value;
+                      if (secret !== secret2) {
+                        return Swal.showValidationMessage(`   密碼不一致  `);
+                      } else {
+
+                        const res = await resetPassAPI({ secret, email });
+                        if (res.returnCode === 200) {
+                          Swal.fire({
+                            title: "修改密碼成功!",
+                            text: " ",
+                            icon: "success"
+                          });
+                        } else {
+                          Swal.fire({
+                            icon: "error",
+                            title: "發生錯誤",
+                            text: "請稍後再試",
+                          });
+                        }
+
+                      }
+
+                    }
+                  });
+                }
+
+
+              },
+            })
           });
-          }
-
-
-            },
-          })
-
-
-
-     
-
-        });
-      
-
-       
-
-
-
-       }else{
-        Swal.fire({
-          icon: "error",
-          title: "此信箱不存在",
-          text: "請輸入正確信箱",
-        });
-       }
-    
-
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "此信箱不存在",
+            text: "請輸入正確信箱",
+          });
+        }
       }
     })
   }
 
 
-  const handleLogOut:MouseEventHandler<HTMLAnchorElement> = () =>{
+  const handleLogOut: MouseEventHandler<HTMLAnchorElement> = () => {
     Cookies.remove('token');
     window.location.href = '/AH/home';
   }
-  const handleToProfile:MouseEventHandler<HTMLAnchorElement> = () =>{
+  const handleToProfile: MouseEventHandler<HTMLAnchorElement> = () => {
     window.location.href = '/AH/profile';
   }
-  
+
 
 
   const handleBtnLogin = async () => {
-    const returnDate = await loginAPI({ secret, email })
-    if (returnDate.returnCode == 200) {
-      const user: UserReturn = returnDate.data
+    const res = await loginAPI({ secret, email })
+
+
+    if (res.returnCode == 200) {
+      const user: UserReturn = res.data
       Cookies.set('token', user.token, { expires: 7 });
       Cookies.set('userName', user.userName, { expires: 7 });
       Cookies.set('userId', user.userId.toString(), { expires: 7 });
@@ -192,10 +185,10 @@ export const Nav: FC = () => {
           setIsFromHabit(false)
           window.location.href = '/AH/habitHome/habit';
         } else {
-           window.location.href = '/AH/home';
+          window.location.href = '/AH/home';
         }
       });
-   
+
 
     } else {
       Swal.fire({
@@ -210,108 +203,113 @@ export const Nav: FC = () => {
 
   return (
     <div>
-      <nav className="navbar is-dark justify-content-space-between" role="navigation" aria-label="main navigation">
-        <div className="navbar-brand">
-          <a className="navbar-item " href="/AH/home">
-            <img src={image} className="is-48x48" />
-          </a>
-          <a className="navbar-item pl-0" href="/AH/home">
-            原子習慣
-          </a>
 
-          <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
+
+
+
+
+      <div className="header-container">
+        <nav className="left-nav col-6">
+          <div>Home</div>
+          <div>About</div>
+
+        </nav>
+        <div className="logo col-1">
+
+          <img src={image} alt="" />
+
+
         </div>
 
-        <div id="navbarBasicExample" className="navbar-menu ">
-          <div className="navbar-start">
-            <a className="navbar-item has-text-weight-bold pr-6" href="/AH/home">
-              首頁
-            </a>
+        <nav className="right-nav col-3">
 
-            <a className="navbar-item has-text-weight-bold pr-6" href="/AH/home">
-              關於
-            </a>
-            {/* <a className="navbar-item has-text-weight-bold pr-6" href="/AH/habitCard">
-              計分卡
-            </a> */}
+          <div>
             <a className="navbar-item has-text-weight-bold pr-6" onClick={handleRedirectTOHabitPage} >
-              習慣
+              Form a Habit
             </a>
           </div>
 
-          <div className="navbar-end mr-6">
+        </nav>
+{
+  islogin ? (    <div className="col-2 navbar">
+  <ul>
+  <li className="dropdown">
+      <a  className="dropbtn">Services</a>
+      <div className="dropdown-content">
+          <a href="#">Service 1</a>
+          <a href="#">Service 2</a>
+          <a href="#">Service 3</a>
+      </div>
+  </li>
+</ul>
+  </div>) :(
+    <div className="col-2 navbar">
+      <ul>
+        <li className="dropdown">
+          <a className="logindd" onClick={handleOpenModal}>login</a>
+
+        </li>
+      </ul>
+    </div>)
+}
 
 
-            {
-              islogin ? (<div className="navbar-item has-dropdown is-hoverable">
-                <a className="navbar-link">
-                <FontAwesomeIcon icon={fas.faUser} />
-                </a>
 
 
-                <div className="navbar-dropdown">
-                  {/* <a className="navbar-item" onClick={handleToProfile}>
-                    個人資訊
-                  </a> */}
-                  {/* <a className="navbar-item">
-                    Jobs
-                  </a> */}
-                 
-                  <hr className="navbar-divider" />
-                  <a className="navbar-item" onClick={handleLogOut}>
-                    LogOut
-                  </a>
-                </div>
-              </div>) : (<div className="navbar-item">
-                <div className="buttons">
+    
 
-                  <a className="button is-light has-text-weight-bold" onClick={handleOpenModal}>
-                    Log in
-                  </a>
-                </div>
-              </div>)
-            }
 
+
+
+      </div>
+
+
+
+
+
+      <div>
+
+        <div className={className}>
+          <div className="modal-content">
+            <div className="modal-header">
+
+
+              <h2>Login</h2>
+
+              <span className="close" onClick={handleCloseModal}>&times;</span>
+            </div>
+
+            <div className="modal-body">
+              <label >帳號</label>
+              <input type="text" name=""  className="text" onChange={handleEmailOnchange} value={email} />
+              <label  >密碼</label>
+          <input type="password" name="" className="password" onChange={handleSecretOnchange} value={secret} />
+               <div className="bottom">
+               <a href="/AH/createUser" className="">還沒有帳號?</a>
+              <a onClick={handleBtnForgotPass} className="">忘記密碼?</a>
+               </div>
+            
+
+            </div>
+            <div className="modal-footer">
+              <button className="button" onClick={handleBtnLogin}>登入</button>
+              <button className="button" onClick={handleBtnCloseModal}>取消</button>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className={className} >
-          <div className="modal-background" onClick={handleCloseModal}></div>
-          <div className="modal-card ">
-            <header className="modal-card-head ">
-              <p className="modal-card-title ">登入</p>
-              
-              <button className="delete" aria-label="close" onClick={handleBtnCloseModal}></button>
-            </header>
-            <section className="modal-card-body">
-              <label htmlFor="" className="has-text-black is-size-4	">帳號</label>
-              <input type="text" name="" id="" className="input" onChange={handleEmailOnchange} value={email} />
-              <label htmlFor="" className="has-text-black is-size-4	">密碼</label>
-              <input type="password" name="" id="" className="input" onChange={handleSecretOnchange} value={secret} />
 
-              <a href="/AH/createUser" className="m-2">還沒有帳號?</a>
-              <a onClick={handleBtnForgotPass} className="ml-4">忘記密碼?</a>
-            </section>
-            <footer className="modal-card-foot">
-              <button className="button is-success" onClick={handleBtnLogin}>登入</button>
-              <GoogleLogin
-                onSuccess={credentialResponse => {
-                }}
-                onError={() => {
-                 
-                }}
-              />
-            </footer>
-          </div>
-        </div>
 
-      </nav>
 
-      <Outlet />
+
+
+
+
+
+      <div>
+        <Outlet />
+      </div>
     </div>
   )
 }

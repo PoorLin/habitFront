@@ -1,3 +1,7 @@
+:root {
+    --primary-color: #01303f;
+  }
+
 .video-container{
     position: relative;
     width: 100%;
@@ -14,12 +18,7 @@
     width: 100%;
     height: 100%;
 }
-.container{
-    width:90%;         /* 寬度 */
-    max-width:1170px;  /* 最大寬度 */
-    margin: auto;      /* 外邊界:自動 */
-  
-}
+
 h1{
     align-items: center;
     margin: 0;
@@ -37,3 +36,315 @@ h1{
     text-align: center;
     font-size: 28px;
 }
+
+
+
+
+/* 設置col */
+
+.col-13-1{width: 4.15%;}
+.col-1{width: 8.333333333%;}
+.col-2{width: 16.66666667%;}
+.col-3{width: 25%;}
+.col-4{width: 33.33333333%;}
+.col-5{width: 41.66666667%;}
+.col-6{width: 50%;}
+.col-7{width: 58.33333333%;}
+.col-8{width: 66.66666667%;}
+.col-9{width: 75%;}
+.col-10{width: 83.33333333%;}
+.col-11{width: 91.66666667%;}
+.col-12{width: 100%;}
+
+.container{
+    width:90%;         /* 寬度 */
+    max-width:100%;  /* 最大寬度 */
+    margin: auto;      /* 外邊界:自動 */
+    justify-content: center;
+}
+
+.header-container{
+    height: 80px;
+    background-color: var(--primary-color);  
+    display: flex;
+    width:100%;         /* 寬度 */
+      /* 最大寬度 */
+    /* margin: auto;      外邊界:自動 */
+    font-size: 24px;
+    align-items: center;       /* 以高度的方向置中*/
+    color: #ffffff;
+}
+.modal-header {
+    border-bottom: 1px solid #000000; /* 增加底層邊框 */
+    display: block;
+  }
+  .modal-body {
+    border-bottom: 1px solid #000000; /* 增加底層邊框 */
+
+
+  }
+  .modal-body label{
+    text-align: center;
+    margin:2% 15% 2% 15%  ;
+    display: block;
+    font-size: 24px;
+  
+ }
+ .modal-body input{
+    text-align: center;
+    margin:0 20% 0 20%  ;
+    display: block;
+  
+ }
+ .modal-body>.bottom{
+ display: inline-block;
+ margin: 1% 20% 1% 20%;
+ }
+ .modal-footer{
+    margin: 1% 20% 1% 20%;
+ }
+ .modal-footer button{
+    margin: 0 17% 0 17%;
+ }
+
+
+
+  .modal-header h2{
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    
+  }
+  .modal-header span{
+    display: block;
+    font-size: 32px;
+  }
+  .modal-header label{
+    display: inline-block;
+    font-size: 32px;
+  }
+
+/* .header-container>.profile{
+    margin-left:0%; 
+} */
+
+.header-container>.logo{
+    height: 100%;
+
+}
+
+
+.header-container>.logo>img{
+         
+    height: 120%;
+   border-radius: 100%;
+   display: inline-block;
+}
+
+body{
+    margin: 0px;
+    font-family: 'Original Surfer', sans-serif;
+}
+.header-container>.left-nav{
+
+    display: inline-block;
+    text-align:end;
+}
+.header-container>.left-nav>div{
+    padding-right: 20%;
+    display: inline-block;
+
+}
+.header-container>.right-nav>div{
+ 
+    display: inline-block;
+
+}
+.header-container>.right-nav{
+    margin-left: 5%; 
+}
+
+
+
+
+
+
+
+
+
+
+/* Navdropdown */
+
+.navbar ul {
+    list-style-type: none;
+   
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+  
+    float: left;
+}
+
+.navbar ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    margin-left: 10%;
+    padding: 10px 14px;
+    text-decoration: none;
+}
+
+.navbar ul li a:hover {
+    background-color: #555;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 160px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+.dropdown>.logindd {
+    cursor: pointer;
+}
+
+.dropdown-content a:hover {
+    background-color: #555;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+ 
+
+/* 登入按鈕 */
+.loginButton {
+    padding: 5px 10px;
+    background-color: #a9a9aa; 
+    color: #fff; 
+    border: none; 
+    border-radius: 5px; /* 圓角 */
+    cursor: pointer; /* 滑鼠標示手指 */
+  }
+
+
+
+
+  /* modal */
+
+  .modal {
+    display: none; /* 隱藏 */
+    position: fixed; /* 固定定位 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 設定背景 */
+    z-index: 1; /* 設置順序 */
+    overflow: auto; /* 允許滾動 */
+    padding-top: 60px; /* 上方留下空間 */
+  }
+
+  .modal.is-active {
+    display: block; /* 隱藏 */
+    position: fixed; /* 固定定位 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 設定背景 */
+    z-index: 1; /* 設置順序 */
+    overflow: auto; /* 允許滾動 */
+    padding-top: 60px; /* 上方留下空間 */
+  }
+
+    .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+/* form */
+
+
+.text,.password{
+    width: 60%;
+    padding: 10px 8px;
+    border:1px solid lightgray;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+ input[type="email"],input[type="file"],input[type="date"], textarea, select{
+    width: 60%;
+    padding: 10px 8px;
+    border:1px solid lightgray;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+input[type="submit"]{
+    border:none;
+    background-color: red;
+    padding:5px;
+    width: 200px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    color:white;
+    cursor: pointer;
+    float:right;
+    font-size: 18px;
+}
+input[type="submit"]:hover{
+    background-color: rgb(245, 106, 0);
+}
+
+
+.button {
+    padding: 15px 15px;
+    background-color: var(--primary-color); 
+    color: #fff; 
+    border: none; 
+    border-radius: 5px; /* 圓角 */
+    cursor: pointer; /* 滑鼠標示手指 */
+  }
+

@@ -1,9 +1,7 @@
 import { FC, useState } from "react";
 import { Nav } from "./Nav";
-import 'bulma/css/bulma.css'
 import { HabitComponent } from "./HabitComponent";
 import { GoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
-import '../assets/style.css'
 export const Index: FC = () => {
 
 
@@ -16,7 +14,7 @@ export const Index: FC = () => {
 
 
 
-<div className="bg-image">如果你每天進步１％，持續一年，你會進步３７倍；
+{/* <div className="bg-image">如果你每天進步１％，持續一年，你會進步３７倍；
 相反地，如果你每天退步１％，持續一年，你會弱化到趨近於０。</div>
 
 
@@ -37,7 +35,7 @@ export const Index: FC = () => {
     </div>
     </div>
 
-</div>
+</div> */}
         </div>
     )
 }
