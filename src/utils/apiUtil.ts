@@ -21,6 +21,9 @@ export const EMAIL_NOT_EXIST_NUMBER = 2003;
 
 
 
+export const HABIT_ALREADY_EXIST = "此建立相同名稱的習慣";
+
+export const HABIT_ALREADY_EXIST_NUMBER = 3001;
 
 
 
@@ -35,7 +38,15 @@ export const UNKNOWN_ERROR_NUMBER = 9999;
 
 
 
-
+export const showloadingForFetch = () =>{
+  Swal.fire({
+      title: "讀取中",
+      text: "請稍後",
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+}
 
 
 export const showloading = () =>{

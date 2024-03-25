@@ -74,6 +74,87 @@ h1{
     align-items: center;       /* 以高度的方向置中*/
     color: #ffffff;
 }
+
+.sider-container{ 
+    display: flex;
+    flex-wrap: wrap;
+    width:100%;         /* 寬度 */
+      /* 最大寬度 */
+    /* margin: auto;      外邊界:自動 */
+    font-size: 12px;
+    align-items: center;       /* 以高度的方向置中*/
+  
+}
+
+.create-habit-container{
+    margin-left: 3%;
+ 
+}
+
+
+.modal-header h2{
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    font-weight:bolder;
+  }
+.create-habit-container a{
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 20%;
+}
+.create-habit-container a:hover{
+ background-color: #1111112c;
+}
+
+.create-habit-container label{
+    font-size: 1.5rem;
+}
+.create-habit-container select{
+    margin-left: 1%; 
+    width: 10%;
+}
+.create-habit-container input{
+    margin-left: 1%; 
+}
+
+
+.sider-container h1{
+    margin-top: 2%;
+    text-align: center;
+    font-size: 30px;
+
+}
+
+.sidebar{
+    padding: 0;
+    margin-left: 10%;
+    margin-right: 5%;
+    margin-top: 10%;
+    list-style-type: none;
+}
+
+
+
+.sidebar a{
+    
+    line-height: 40px;
+    text-decoration: none;
+    color:black;
+    display: block;
+    /* background-color: lightgray; */
+    padding-left: 10px;
+    font-size: 24px;
+    letter-spacing: 0.5px; /*字距*/
+}
+.sidebar a.active{
+    border-left: 5px solid orange;
+}
+.sidebar a:hover{
+    background-color: #f6f6f6;
+}
+
+
 .modal-header {
     border-bottom: 1px solid #000000; /* 增加底層邊框 */
     display: block;
@@ -97,9 +178,15 @@ h1{
   
  }
  .modal-body>.bottom{
- display: inline-block;
- margin: 1% 20% 1% 20%;
+text-align: center;
+margin-bottom: 2%;
+
  }
+ .modal-body a{
+ margin-left: 2%;
+ cursor: pointer;
+ }
+
  .modal-footer{
     margin: 1% 20% 1% 20%;
  }
@@ -113,7 +200,7 @@ h1{
     width: 100%;
     text-align: center;
     font-size: 24px;
-    
+    font-weight:bolder;
   }
   .modal-header span{
     display: block;
@@ -130,6 +217,7 @@ h1{
 
 .header-container>.logo{
     height: 100%;
+    z-index: 1;
 
 }
 
@@ -281,11 +369,22 @@ nav a{
     .modal-content {
     background-color: #fefefe;
     margin: auto;
-    padding: 20px;
+    padding: 0px 3% 1% 3%;
     border: 1px solid #888;
     width: 40%;
     border-radius: 5px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .modal-society{
+    margin-top: 2%;
+    margin-bottom: 2%;
+  font-size: 32px;
+   text-align: center;
+  }
+  .modal-society a{
+    margin-left: 5%;
+    margin-right: 5%;
   }
 
 
@@ -317,7 +416,7 @@ nav a{
     margin-bottom: 20px;
 }
 
- input[type="email"],input[type="file"],input[type="date"], textarea, select{
+ input[type="email"],input[type="file"],input[type="date"], textarea{
     width: 60%;
     padding: 10px 8px;
     border:1px solid lightgray;
@@ -351,3 +450,44 @@ input[type="submit"]:hover{
     cursor: pointer; /* 滑鼠標示手指 */
   }
 
+
+
+
+
+  /* 麵包屑 */
+  .breadcrumb{
+    font-size: 1.1rem;
+  }
+.breadcrumb ol{
+    margin: 0 0 0 2%;
+    padding: 0;
+    list-style-type: none;
+}
+.breadcrumb ol li{
+    float: left;
+}
+/* 後代 相鄰 偽類 */
+.breadcrumb ol li+li::before{
+    content: "\00a0>\00a0";
+}
+.breadcrumb a{
+    color:gray;
+    text-decoration: none;
+}
+.breadcrumb a:hover{
+    color:black;
+}
+.bg-gray{
+    background: #f3f3f3;
+    padding: 20px 0px ; /*上下 左右*/
+}
+
+.slogan {
+   
+    font-size: 28px; /* 設定字體大小 */
+    font-weight:bolder; /* 設定字體粗細 */
+    color: #333; /* 設定文字顏色 */
+    text-align: center; /* 文字置中對齊 */
+    margin-top: 20px; /* 上方邊距 */
+    margin-bottom: 20px; /* 下方邊距 */
+  }

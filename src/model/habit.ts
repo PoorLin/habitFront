@@ -38,6 +38,14 @@ export interface MakeChartResProp {
     myAll:number,
     myAllSuccess:number
 }
+export interface NewHabit {
+    newHabitName: string,
+    newHabitType:number
+}
 
-
+export interface CreateHabitProp {
+    userId: number,
+    habitName: string,
+    type:number
+}
 

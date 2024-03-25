@@ -7,15 +7,17 @@ import { EditHabit } from "./EditHabit";
 import Cookies from 'js-cookie';
 import { HabitProp } from "../model/EditProp";
 import Swal from 'sweetalert2';
+import { INIT_TYPE } from "../const/commonConst";
 
 export const HabitComponent: FC = () => {
+  const fetchData = async () => {
+    const userId = Cookies.get('userId')
+    const res = await getUserHabit(parseInt(userId!));
+    setHabitArr(res.data);
+  
+  };
   const [habitArr, setHabitArr] = useState<HabitProp[]>([])
   useEffect(() => {
-    const fetchData = async () => {
-      const userId = Cookies.get('userId')
-      const res = await getUserHabit(parseInt(userId!));
-      setHabitArr(res.data);
-    };
     fetchData();
   }, []);
 
@@ -27,24 +29,29 @@ export const HabitComponent: FC = () => {
     setCreating(true);
   }
 
-  const handleCreateNewHabit = async (newHabitName: string) => {
+  const handleCreateNewHabit = async (newHabit: NewHabit) => {
+    console.log(newHabit)
     const userId = parseInt(Cookies.get('userId')!);
-
-    Swal.fire({
-      title: '建立成功!',
-      icon: 'success',
-      showCancelButton: false,
-      confirmButtonText: 'OK',
-    }).then(async () => {
+    if(newHabit.newHabitName == '' || newHabit.newHabitType == INIT_TYPE){
+     
+    }else{
       const setToHabit = await createHabitAPI({
         userId: userId,
-        habitName: newHabitName
+        habitName: newHabit.newHabitName,
+        type : newHabit.newHabitType
+        
       });
-      const setToArr: HabitProp = setToHabit.data;
-      setHabitArr([...habitArr, setToArr]);
-      setCreating(false);
-
-    });
+      
+      Swal.fire({
+        title: '成功建立!',
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonText: 'OK',
+      })
+      setHabitArr([...habitArr,setToHabit.data])
+      
+    }
+   
 
 
   }
@@ -57,15 +64,15 @@ export const HabitComponent: FC = () => {
   return (
 
 
-    <div >
-      <div className="p-0 column is-12 ">
-        <section className="section p-5">
-          <h1 className="title ">您的習慣列表</h1>
-          <h2 className="subtitle">
-            每天進步1%，一年後你將進步37倍
+    <>
+     
+
+      
+          <h2 className="slogan">
+          ~每天進步1%，一年後你將進步37倍~
           </h2>
-        </section>
-      </div>
+
+    
 
 
 
@@ -255,23 +262,23 @@ export const HabitComponent: FC = () => {
       </div>
       )}
 
-      <div className="m-6">
+      
         {
-          creating && <div>
+          creating &&   <div className="create-habit-container">
             <EditHabit onSave={handleCreateNewHabit} onCancel={handleOnCancel} />
           </div>
 
         }
-      </div>
+  
       {
         !creating &&
-        <div className="m-6">
+        <div className="create-habit-container">
           <a onClick={showCreate}>養成新習慣 <FontAwesomeIcon icon={fas.faPlus} /></a>
 
         </div>
       }
 
-    </div>
+    </>
 
 
 

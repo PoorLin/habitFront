@@ -2,11 +2,10 @@ import { FC, MouseEventHandler, useEffect, useState, useContext } from "react";
 import image from '../assets/wtsWhiteFont.jpg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Outlet, useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
 import { forgotPassAPI, loginAPI, loginByGoogleAPI, resetPassAPI } from "../api/UserAPI";
 import Cookies from 'js-cookie';
 import { UserReturn } from "../model/UserReturn";
-import { fas } from "@fortawesome/free-solid-svg-icons";
+import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import Swal from 'sweetalert2';
 
 
@@ -237,7 +236,7 @@ export const Nav: FC = () => {
   islogin ? (    <div className="col-2 navbar">
   <ul>
   <li className="dropdown">
-      <a  className="dropbtn">Services</a>
+      <a  className="dropbtn">Profile</a>
       <div className="dropdown-content">
           <a onClick={handleLogOut}>LogOut</a>
         
@@ -286,6 +285,18 @@ export const Nav: FC = () => {
               <input type="text" name=""  className="text" onChange={handleEmailOnchange} value={email} />
               <label  >密碼</label>
           <input type="password" name="" className="password" onChange={handleSecretOnchange} value={secret} />
+
+          <div className="modal-society">
+            <a >
+              
+              <FontAwesomeIcon icon={faGoogle} />
+            </a>
+            <a >
+              
+              <FontAwesomeIcon icon={faFacebook} />
+            </a>
+          
+          </div>
                <div className="bottom">
                <a href="/AH/createUser" className="">還沒有帳號?</a>
               <a onClick={handleBtnForgotPass} className="">忘記密碼?</a>

@@ -1,7 +1,7 @@
-import { Habit } from "./habit";
+import { NewHabit } from "./habit";
 
 export interface EditProp{
-  onSave : (habit:string)=> void
+  onSave : (newhabit:NewHabit)=> void
   onCancel : ()=> void
 }
 export interface HabitProp{
