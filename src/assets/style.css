@@ -150,6 +150,9 @@ body{
     display: inline-block;
     text-align:end;
 }
+nav a{
+    cursor: pointer;
+}
 .header-container>.left-nav>div{
     padding-right: 20%;
     display: inline-block;

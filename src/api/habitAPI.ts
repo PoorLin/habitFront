@@ -1,18 +1,18 @@
 import axios from "axios";
 import { EditHabit, EditHabitStatus, Habit, HabitStatus, MakeChartProp } from "../model/habit";
 import { BackEndReturn } from "../model/BackEndReturn";
-import { handleError, showloading } from "../utils/apiUtil";
+import { BASE_URL, SUCCESS_NUMBER, handleError, showloading } from "../utils/apiUtil";
 
-const baseUrl = 'http://192.168.56.1:8081/atomicHabits/habit'
+const baseUrl = `${BASE_URL}/atomicHabits/habit`
 
 
 export const createHabitAPI = async (habit: Habit): Promise<BackEndReturn> => {
   try {
     showloading();
     const res = ((await axios.post(`${baseUrl}/addHabit`, habit,{
-    timeout: 5000,
+    timeout: TIMEOUT_NUMBER,
   })).data)
-  if (res.returnCode === 200) {
+  if (res.returnCode === SUCCESS_NUMBER) {
     return res;
   } else {
     //若非200，則自定義失敗請求
@@ -29,9 +29,9 @@ export const updateHabitAPI = async (habit: EditHabit): Promise<BackEndReturn> =
   try {
     showloading();
     const res =((await axios.put(`${baseUrl}/${habit.habitId}`, habit,{
-    timeout: 5000,
+    timeout: TIMEOUT_NUMBER,
   })).data)
-  if (res.returnCode === 200) {
+  if (res.returnCode === SUCCESS_NUMBER) {
     return res;
   } else {
     //若非200，則自定義失敗請求
@@ -46,9 +46,9 @@ export const updateHabitStatusAPI = async (habit: EditHabitStatus): Promise<Back
   try {
     showloading();
     const res = ((await axios.put(`${baseUrl}/updateHabitStatus`, habit,{
-    timeout: 5000,
+    timeout: TIMEOUT_NUMBER,
   })).data)
-  if (res.returnCode === 200) {
+  if (res.returnCode === SUCCESS_NUMBER) {
     return res;
   } else {
     //若非200，則自定義失敗請求
@@ -64,9 +64,9 @@ export const makeChartAPI = async (prop: MakeChartProp): Promise<BackEndReturn> 
   try {
     showloading();
     const res = ((await axios.post(`${baseUrl}/makeChart`, prop,{
-    timeout: 5000,
+    timeout: TIMEOUT_NUMBER,
   })).data)
-  if (res.returnCode === 200) {
+  if (res.returnCode === SUCCESS_NUMBER) {
     return res;
   } else {
     //若非200，則自定義失敗請求

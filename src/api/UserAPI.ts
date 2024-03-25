@@ -2,24 +2,28 @@ import axios from "axios";
 import { CreateUserProp } from "../model/CreateUserPop";
 import { BackEndReturn } from "../model/BackEndReturn";
 import { ForgotPassProp, LoginProp, ResetPassProp } from "../model/LoginProp";
-import { handleError, showloading } from "../utils/apiUtil";
+import { BASE_URL, EMAIL_NOT_EXIST, EMAIL_NOT_EXIST_NUMBER, SERVERERROR, SUCCESS_NUMBER, TIMEOUT_NUMBER, USER_NOT_EXIST, USER_NOT_EXIST_NUMBER, handleError, showError, showloading } from "../utils/apiUtil";
 
-const baseUrl = 'http://192.168.56.1:8081/atomicHabits/users'
+const baseUrl = `${BASE_URL}/atomicHabits/users`
 
 export const createUserAPI = async (user: CreateUserProp): Promise<BackEndReturn> => {
   try {
     showloading();
     const res = ((await axios.post(`${baseUrl}/addUser`, user, {
-      timeout: 5000,
+      timeout: TIMEOUT_NUMBER,
     })).data)
-    if (res.returnCode === 200) {
+    if (res.returnCode === SUCCESS_NUMBER) {
       return res;
-    } else {
+    }else if(res.returnCode === EMAIL_NOT_EXIST_NUMBER){
+      showError(EMAIL_NOT_EXIST);
+      return res;
+    } 
+    else {
       //若非200，則自定義失敗請求
       throw new Error(`Request failed with status code ${res.returnCode}`);
     }
   } catch (error) {
-    handleError(error);
+    handleError(error,SERVERERROR);
     return Promise.reject(error);
   }
 
@@ -29,17 +33,21 @@ export const loginAPI = async (loginUser: LoginProp): Promise<BackEndReturn> => 
   try {
     showloading();
     const res = ((await axios.post(`${baseUrl}/login`, loginUser, {
-      timeout: 5000,
+      timeout: TIMEOUT_NUMBER,
     })).data)
     //若200，則成功發送
-    if (res.returnCode === 200) {
+    if (res.returnCode === SUCCESS_NUMBER) {
       return res;
-    } else {
+    } else if (res.returnCode === USER_NOT_EXIST_NUMBER){
+      showError(USER_NOT_EXIST);
+      return res;
+    }
+    else{
       //若非200，則自定義失敗請求
       throw new Error(`Request failed with status code ${res.returnCode}`);
     }
   } catch (error) {
-    handleError(error);
+    handleError(error,SERVERERROR);
     return Promise.reject(error);
   }
 }
@@ -50,7 +58,7 @@ export const forgotPassAPI = async (forgotprop: ForgotPassProp): Promise<BackEnd
 try{
   showloading();
   const res = ((await axios.post(`${baseUrl}/forgotPass`, forgotprop,{
-    timeout: 5000,
+    timeout: TIMEOUT_NUMBER,
   }
   )).data)
 
@@ -61,7 +69,7 @@ try{
     throw new Error(`Request failed with status code ${res.returnCode}`);
   }
 } catch (error) {
-  handleError(error);
+  handleError(error,SERVERERROR);
   return Promise.reject(error);
 }
 
@@ -70,16 +78,16 @@ export const resetPassAPI = async (resetPass: ResetPassProp): Promise<BackEndRet
   try{
     showloading();
   const res = ((await axios.post(`${baseUrl}/ChangePass`, resetPass,{
-    timeout: 5000,
+    timeout: TIMEOUT_NUMBER,
   })).data)
-  if (res.returnCode === 200) {
+  if (res.returnCode === SUCCESS_NUMBER) {
     return res;
   } else {
     //若非200，則自定義失敗請求
     throw new Error(`Request failed with status code ${res.returnCode}`);
   }
 } catch (error) {
-  handleError(error);
+  handleError(error,SERVERERROR);
   return Promise.reject(error);
 }
 }

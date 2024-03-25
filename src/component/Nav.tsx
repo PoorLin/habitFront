@@ -210,8 +210,11 @@ export const Nav: FC = () => {
 
       <div className="header-container">
         <nav className="left-nav col-6">
-          <div>Home</div>
-          <div>About</div>
+          <div>
+            <a >Home</a></div>
+          <div>
+            <a >About</a>
+            </div>
 
         </nav>
         <div className="logo col-1">
@@ -236,9 +239,8 @@ export const Nav: FC = () => {
   <li className="dropdown">
       <a  className="dropbtn">Services</a>
       <div className="dropdown-content">
-          <a href="#">Service 1</a>
-          <a href="#">Service 2</a>
-          <a href="#">Service 3</a>
+          <a onClick={handleLogOut}>LogOut</a>
+        
       </div>
   </li>
 </ul>
