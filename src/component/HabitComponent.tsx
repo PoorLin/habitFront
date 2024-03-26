@@ -8,8 +8,8 @@ import Cookies from 'js-cookie';
 import { HabitProp } from "../model/EditProp";
 import Swal from 'sweetalert2';
 import { ERROR_Habit, ERROR_Habit_TYPE, INIT_TYPE } from "../const/commonConst";
-import { showError, showErrorNoText, showSuccess } from "../utils/apiUtil";
-import { it } from "node:test";
+import { showErrorNoText, showSuccess } from "../utils/apiUtil";
+
 
 export const HabitComponent: FC = () => {
   const fetchData = async () => {
@@ -25,18 +25,10 @@ export const HabitComponent: FC = () => {
 
 
   const [creating, setCreating] = useState<boolean>(false);
-  const [hasChange, setHasChange] = useState<boolean>(false);
-  const [editHabitName, setEditHabitName] = useState<string>();
-  const [editHabitId, setEditHabitId] = useState<number>();
   const showCreate: MouseEventHandler<HTMLAnchorElement> = () => {
     setCreating(true);
   }
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const newValue = e.target.value;
-    // 在这里更新状态或执行其他逻辑
-    setHasChange(!hasChange);
-  };
   const handleCreateNewHabit = async (newHabit: NewHabit) => {
     const userId = parseInt(Cookies.get('userId')!);
     if (newHabit.newHabitName == '') {
@@ -69,21 +61,12 @@ export const HabitComponent: FC = () => {
     setCreating(false);
   }
 
-
-
   return (
 
-
     <>
-
-
-
       <h2 className="slogan">
         ~每天進步1%，一年後你將進步37倍~
       </h2>
-
-
-
 
       <div className="container">
         <div className="col-12">
@@ -106,15 +89,13 @@ export const HabitComponent: FC = () => {
                       {item.type === 0 ? (<>
                         {/* 量化輸入值 區塊 */}
                         <label htmlFor="">{item.habitName} : </label>
-                        <input type="text" name={`${item.habitId}`} value={item.status} onChange={handleChange}
+                        <input type="text" name={`${item.habitId}`} value={item.status} disabled
                           onBlur={async (e) => {
                             const status = parseInt(e.target.value);
                             if (status < 0 || status > 21474830) {
                               showErrorNoText('請輸入正常數字')
                             } else {
-
                               const habitId = parseInt(e.currentTarget.getAttribute('name')!)
-                              const res = await updateHabitStatusAPI({ habitId, status });
                               const indexToUpdate = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
                               if (indexToUpdate !== -1) {
                                 const target = habitArr[indexToUpdate];
@@ -125,58 +106,23 @@ export const HabitComponent: FC = () => {
                               }
 
                             }
-
-
-
-
-
                           }}
 
                         />
 
                       </>) : (<>
                         {/* 非量化輸入值 區塊 */}
+                       {
+                           item.status === HabitStatus.UNDO ? (    <label htmlFor=""> 未完成
+                           <input type="radio" value={HabitStatus.UNDO} name={`${item.habitId}`} checked  />
+                         </label>) : (        <label htmlFor=""> 已完成
+                          <input type="radio" value={HabitStatus.DONE} name={`${item.habitId}`} checked  />
+                        </label>)  
 
-                        <label htmlFor=""> 未完成
-                          <input type="radio" value={HabitStatus.UNDO} name={`${item.habitId}`} checked={item.status === HabitStatus.UNDO} onChange={
-                            async (e) => {
-                              const status = parseInt(e.target.value);
-                              const habitId = parseInt(e.currentTarget.getAttribute('name')!)
-                              const res = await updateHabitStatusAPI({ habitId, status });
-                              const indexToUpdate = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
-                              if (indexToUpdate !== -1) {
-                                const target = habitArr[indexToUpdate];
-                                habitArr.splice(indexToUpdate, 1);
-                                const updateArr = [...habitArr, { ...target, status }]
-                                setHabitArr(updateArr);
-                                showSuccess('設定成功')
-                              }
+                       }
+                    
 
-
-
-                            }} />
-                        </label>
-
-                        <label htmlFor=""> 已完成
-                          <input type="radio" value={HabitStatus.DONE} name={`${item.habitId}`} checked={item.status === HabitStatus.DONE} onChange={
-                            async (e) => {
-                              const status = parseInt(e.target.value);
-                              const habitId = parseInt(e.currentTarget.getAttribute('name')!)
-                              const res = await updateHabitStatusAPI({ habitId, status });
-                              const indexToUpdate = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
-                              if (indexToUpdate !== -1) {
-                                const target = habitArr[indexToUpdate];
-                                habitArr.splice(indexToUpdate, 1);
-                                const updateArr = [...habitArr, { ...target, status }]
-                                setHabitArr(updateArr);
-                                showSuccess('設定成功')
-                              }
-
-
-
-
-                            }} />
-                        </label>
+                
 
                       </>
 
@@ -188,7 +134,7 @@ export const HabitComponent: FC = () => {
                     </td>
                     <td className="">
                       <a className="edit">
-                        <FontAwesomeIcon className="is-clickable" icon={fas.faEdit} data-id={item.habitId} data-name={item.habitName} data-t={item.type} data-s={item.status} onClick={(e) => {
+                        <FontAwesomeIcon  icon={fas.faEdit} data-id={item.habitId} data-name={item.habitName} data-t={item.type} data-s={item.status} onClick={(e) => {
 
                           const habitId = parseInt(e.currentTarget.getAttribute('data-id')!);
                           const beforehabitName = (e.currentTarget.getAttribute('data-name')!);
@@ -219,7 +165,6 @@ export const HabitComponent: FC = () => {
                                 if (beforehabitName === habitName && status == beforehabitStatus) {
                                   showSuccess('修改成功!')
                                 } else {
-                                  const data = await updateHabitAPI({ habitId, habitName, status })
                                   const indexToUpdate = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
                                   if (indexToUpdate !== -1) {
                                     const target = habitArr[indexToUpdate];
