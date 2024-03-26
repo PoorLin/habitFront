@@ -33,11 +33,22 @@ export const UNKNOWN_ERROR = "未知的錯誤";
 
 export const UNKNOWN_ERROR_NUMBER = 9999;
 
+export const SERVERERRORSTR = "請稍後再試或聯絡官方人員";
 
 
 
 
 
+
+export const showSuccess = (str:string) =>{
+  Swal.fire({
+    title: str,
+    icon: 'success',
+    showCancelButton: false,
+    confirmButtonText: 'OK',
+  })
+}
+ 
 export const showloadingForFetch = () =>{
   Swal.fire({
       title: "讀取中",
@@ -61,12 +72,19 @@ export const showloading = () =>{
 }
 
 
-export const showError = (errorStr:string) =>{
-    Swal.fire({
-        icon: "error",
-        title: errorStr,
-        text: "請稍後再試或聯絡官方人員",
-      });
+
+export const showError = (errorTitle:string,errorText:string) =>{
+  Swal.fire({
+      icon: "error",
+      title: errorTitle,
+      text: errorText,
+    });
+}
+export const showErrorNoText = (errorTitle:string) =>{
+  Swal.fire({
+      icon: "error",
+      title: errorTitle
+    });
 }
 
 
@@ -76,14 +94,14 @@ export const handleError = (error: unknown,errorStr:string) =>{
     if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
         if (axiosError.response) {
-          showError(errorStr)
+          showError(errorStr,SERVERERRORSTR)
         } else if (axiosError.request) {
-          showError(errorStr)
+          showError(errorStr,SERVERERRORSTR)
         } else {
-          showError(errorStr)
+          showError(errorStr,SERVERERRORSTR)
         }
       } else {
-        showError(errorStr)
+        showError(errorStr,SERVERERRORSTR)
       }  
 
 }

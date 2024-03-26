@@ -99,7 +99,7 @@ export const Nav: FC = () => {
                     title: '修改密碼',
                     html:
                       '<label>第一次輸入<label/> <input id="input1" type="password" class="swal2-input" placeholder="輸入密碼">' +
-                      '<label>第一次輸入<label/><input id="input2" type="password" class="swal2-input" placeholder="再次輸入密碼">',
+                      '<label>第二次輸入<label/><input id="input2" type="password" class="swal2-input" placeholder="再次輸入密碼">',
                     showCancelButton: true,
                     confirmButtonText: '送出',
                     cancelButtonText: '取消',

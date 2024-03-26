@@ -491,3 +491,56 @@ input[type="submit"]:hover{
     margin-top: 20px; /* 上方邊距 */
     margin-bottom: 20px; /* 下方邊距 */
   }
+
+
+
+  /* table */
+.edit{
+cursor: pointer;
+margin: 0 2% 0 2%;
+}
+.delete{
+cursor: pointer;
+margin: 0 2% 0 2%;
+}
+
+
+
+
+
+  table{
+    border-collapse: collapse;
+  width: 100%;
+  font-size: 20px;
+  border-radius: 5%;
+  text-align: center;
+}
+th{
+    background-color: #3c3c3c;
+    color: white;
+}
+
+th,td{
+    border: 1px solid gray;
+    padding: 10px;
+}
+
+tr:hover{
+    background-color: #f6f6f6;
+}
+
+
+.swal-update-habit{
+    text-align: center;
+    margin:0 10% 0 10%  ;
+    display: block;
+}
+.swal-update-habit input[radio]{
+    margin-top: 20px;
+}
+
+
+
+
+
+

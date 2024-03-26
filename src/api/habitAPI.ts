@@ -1,7 +1,7 @@
 import axios from "axios";
 import { CreateHabitProp, EditHabit, EditHabitStatus, Habit, HabitStatus, MakeChartProp } from "../model/habit";
 import { BackEndReturn } from "../model/BackEndReturn";
-import { BASE_URL, HABIT_ALREADY_EXIST, HABIT_ALREADY_EXIST_NUMBER, SERVERERROR, SUCCESS_NUMBER, TIMEOUT_NUMBER, handleError, showError, showloading, showloadingForFetch } from "../utils/apiUtil";
+import { BASE_URL, HABIT_ALREADY_EXIST, HABIT_ALREADY_EXIST_NUMBER, SERVERERROR, SUCCESS_NUMBER, TIMEOUT_NUMBER, handleError, showError, showErrorNoText, showloading, showloadingForFetch } from "../utils/apiUtil";
 
 const baseUrl = `${BASE_URL}/atomicHabits/habit`
 
@@ -24,7 +24,7 @@ export const createHabitAPI = async (habit: CreateHabitProp): Promise<BackEndRet
   if (res.returnCode === SUCCESS_NUMBER) {
     return res;
   }else if(res.returnCode === HABIT_ALREADY_EXIST_NUMBER){
-    showError(HABIT_ALREADY_EXIST);
+    showErrorNoText(HABIT_ALREADY_EXIST);
     return res;
   } else {
     //若非200，則自定義失敗請求

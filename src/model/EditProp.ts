@@ -9,5 +9,6 @@ export interface HabitProp{
   habitName:string,
   startDate:Date,
   userId:number,
-  status:number
+  status:number,
+  type:number
 }

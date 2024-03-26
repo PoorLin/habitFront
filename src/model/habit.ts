@@ -8,6 +8,7 @@ export interface Habit {
 export interface EditHabit {
     habitId: number,
     habitName: string,
+    status: number,
 }
 
 export interface EditHabitStatus {
