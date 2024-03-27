@@ -8,6 +8,7 @@ import { EditHabitCard } from "./EditHabitCard"
 import { Profile } from "./Profile"
 import { HabitSideBar } from "./HabitSideBar"
 import { HabitRecord } from "./HabitRecord"
+import { CreateHabit } from "./CreateHabit"
 
 export const Router: FC = () => {
     const router = createBrowserRouter([
@@ -20,6 +21,8 @@ export const Router: FC = () => {
                         },
                         {
                             path: 'hr', element: <HabitRecord /> 
+                        },  {
+                            path: 'create', element: <CreateHabit /> 
                         }
          
                     ]

@@ -82,7 +82,7 @@ h1{
       /* 最大寬度 */
     /* margin: auto;      外邊界:自動 */
     font-size: 12px;
-    align-items: center;       /* 以高度的方向置中*/
+        /* 以高度的方向置中*/
   
 }
 
@@ -126,6 +126,17 @@ h1{
 
 }
 
+.sider-container input,.sider-container select{
+    width: 40%;
+    padding: 10px 8px;
+    border:1px solid lightgray;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    display: block;
+    margin: 2% 30% 2% 30%;
+
+}
+
 .sidebar{
     padding: 0;
     margin-left: 10%;
@@ -164,11 +175,11 @@ h1{
 
 
   }
-  .modal-body label{
+  .modal-body label,.sider-container label{
     text-align: center;
     margin:2% 15% 2% 15%  ;
     display: block;
-    font-size: 24px;
+    font-size: 30px;
   
  }
  .modal-body input{
@@ -484,7 +495,7 @@ input[type="submit"]:hover{
 
 .slogan {
    
-    font-size: 28px; /* 設定字體大小 */
+    font-size: 40px; /* 設定字體大小 */
     font-weight:bolder; /* 設定字體粗細 */
     color: #333; /* 設定文字顏色 */
     text-align: center; /* 文字置中對齊 */
@@ -539,6 +550,100 @@ tr:hover{
     margin-top: 20px;
 }
 
+
+
+.create-btn{
+    position: fixed; /* 固定定位 */
+    display: block;  /* 塊級元素 */
+    right: 3%;
+    bottom: 10%;
+    /* top right bottom left */
+    width: 50px;
+    height: 50px;
+    background-color: black;
+    text-align: center;
+    line-height: 50px; /* 行高 150% 180%*/
+    text-decoration: none;
+    color:white;
+    border-radius: 50%;
+    
+}
+
+.create-btn:hover{
+    position: fixed; /* 固定定位 */
+    display: block;  /* 塊級元素 */
+    width: 80px;
+    height: 80px;
+    font-size: 30px;
+    text-align: center;
+    align-items: center;
+    right: 3%;
+    
+}
+
+
+.input-container {
+  
+    margin-left: 25%;
+    display: flex;
+    align-items: center;
+    width: 45%; /* 调整宽度 */
+    border: 1px solid #ccc; /* 添加边框 */
+    border-radius: 5px; /* 添加圆角 */
+    padding: 5px; /* 添加内边距 */
+  }
+  
+  .input-container input {
+    flex: 1; /* 输入框占据剩余空间 */
+    margin:0;
+    border: none; /* 移除输入框边框 */
+    outline: none; /* 移除输入框轮廓 */
+  }
+  
+  .input-container button {
+    background-color: #606061; /* 设置按钮背景颜色 */
+    color: #fff; /* 设置按钮文字颜色 */
+    border: none; /* 移除按钮边框 */
+    border-radius: 5%; /* 添加圆角 */
+    padding: 8px 15px; /* 添加内边距 */
+    margin-left: 5px; /* 调整按钮与输入框的间距 */
+    cursor: pointer; /* 将鼠标样式设为指针 */
+    font-size: 24px;
+  }
+
+  .em-container{
+    position: absolute;
+    top: 37%;
+    left: 22%;
+    margin: 0 25% 0 25%;
+  }
+
+
+
+  /* 標籤 tag */
+  .tag-container {
+    width: 10%;
+ display: inline-block;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+  }
+  .col-2>button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 4px;
+    font-size: 20px;
+  }
+
+  .inline{
+    display: inline-block;
+  }
 
 
 

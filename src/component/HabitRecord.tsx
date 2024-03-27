@@ -1,7 +1,7 @@
 import { ChangeEventHandler, FC, useEffect, useState } from "react";
 import { VictoryChart, VictoryAxis, VictoryBar } from 'victory';
 import { HabitProp } from "../model/EditProp";
-import { getUserHabit, makeChartAPI } from "../api/habitAPI";
+import { getUserHabitAPI, makeChartAPI } from "../api/habitAPI";
 import Cookies from 'js-cookie';
 import { HabitRecordProp, MakeChartResProp } from "../model/habit";
 import { ChartComponent } from "./ChartComponent";
@@ -40,7 +40,7 @@ export const HabitRecord: FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       const userId = Cookies.get('userId')
-      const res = await getUserHabit(parseInt(userId!));
+      const res = await getUserHabitAPI(parseInt(userId!));
       setHabitArr(res.data);
     };
     fetchData();

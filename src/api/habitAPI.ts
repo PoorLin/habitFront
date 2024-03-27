@@ -101,7 +101,7 @@ export const makeChartAPI = async (prop: MakeChartProp): Promise<BackEndReturn> 
 
 
 
-export const getUserHabit = async (userId: number): Promise<BackEndReturn> => {
+export const getUserHabitAPI = async (userId: number): Promise<BackEndReturn> => {
 try{
 
   const res =  ((await axios.get(`${baseUrl}/${userId}`, {
@@ -119,10 +119,28 @@ try{
 }
 }
 
-export const deleteUserHabit = async (habitId: number): Promise<BackEndReturn> => {
+export const deleteUserHabitAPI = async (habitId: number): Promise<BackEndReturn> => {
   try{
     showloading();
     const res =  ((await axios.delete(`${baseUrl}/${habitId}`, {
+      timeout: TIMEOUT_NUMBER,
+    } )).data)
+    if (res.returnCode === SUCCESS_NUMBER) {
+      return res;
+    } else {
+      //若非200，則自定義失敗請求
+      throw new Error(`Request failed with status code ${res.returnCode}`);
+    }
+  }catch (error) {
+    handleError(error,SERVERERROR);
+    return Promise.reject(error);
+  }
+}
+
+
+export const getTagsAPI = async (): Promise<BackEndReturn> => {
+  try{
+    const res =  ((await axios.get(`${baseUrl}/getTags`, {
       timeout: TIMEOUT_NUMBER,
     } )).data)
     if (res.returnCode === SUCCESS_NUMBER) {

@@ -1,20 +1,31 @@
 import { faPlus, fas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEventHandler, FC, MouseEventHandler, useEffect, useState } from "react";
-import { createHabitAPI, deleteUserHabit, getUserHabit, updateHabitAPI, updateHabitStatusAPI } from "../api/habitAPI";
+import { createHabitAPI, deleteUserHabitAPI, getUserHabitAPI, updateHabitAPI, updateHabitStatusAPI } from "../api/habitAPI";
 import { Habit, HabitStatus, NewHabit } from "../model/habit";
 import { EditHabit } from "./EditHabit";
 import Cookies from 'js-cookie';
 import { HabitProp } from "../model/EditProp";
 import Swal from 'sweetalert2';
-import { ERROR_Habit, ERROR_Habit_TYPE, INIT_TYPE } from "../const/commonConst";
+import { CREATE_HABIT_URL, ERROR_Habit, ERROR_Habit_TYPE, INIT_TYPE } from "../const/commonConst";
 import { showErrorNoText, showSuccess } from "../utils/apiUtil";
 
 
+
+
 export const HabitComponent: FC = () => {
+
+
+
+
+
+  
+
+
+
   const fetchData = async () => {
     const userId = Cookies.get('userId')
-    const res = await getUserHabit(parseInt(userId!));
+    const res = await getUserHabitAPI(parseInt(userId!));
     setHabitArr(res.data);
 
   };
@@ -54,7 +65,7 @@ export const HabitComponent: FC = () => {
 
     }
 
-
+    setCreating(false);
 
   }
   const handleOnCancel = () => {
@@ -64,13 +75,15 @@ export const HabitComponent: FC = () => {
   return (
 
     <>
+    
       <h2 className="slogan">
+      😊
         ~每天進步1%，一年後你將進步37倍~
       </h2>
 
       <div className="container">
         <div className="col-12">
-          {habitArr?.length! > 0 && (<div>
+          {habitArr?.length! > 0 ? (<div>
             <table className="table">
               <thead>
                 <tr>
@@ -89,7 +102,7 @@ export const HabitComponent: FC = () => {
                       {item.type === 0 ? (<>
                         {/* 量化輸入值 區塊 */}
                         <label htmlFor="">{item.habitName} : </label>
-                        <input type="text" name={`${item.habitId}`} value={item.status} disabled
+                        <input type="text" name={`${item.habitId}`} value={item.status} readOnly
                           onBlur={async (e) => {
                             const status = parseInt(e.target.value);
                             if (status < 0 || status > 21474830) {
@@ -104,31 +117,22 @@ export const HabitComponent: FC = () => {
                                 setHabitArr(updateArr);
                                 showSuccess('成功')
                               }
-
                             }
                           }}
-
                         />
 
                       </>) : (<>
                         {/* 非量化輸入值 區塊 */}
                        {
                            item.status === HabitStatus.UNDO ? (    <label htmlFor=""> 未完成
-                           <input type="radio" value={HabitStatus.UNDO} name={`${item.habitId}`} checked  />
+                           <input type="radio" value={HabitStatus.UNDO} name={`${item.habitId}`}   />
                          </label>) : (        <label htmlFor=""> 已完成
-                          <input type="radio" value={HabitStatus.DONE} name={`${item.habitId}`} checked  />
+                          <input type="radio" value={HabitStatus.DONE} name={`${item.habitId}`}   />
                         </label>)  
-
                        }
-                    
-
-                
 
                       </>
-
                       )
-
-
                       }
 
                     </td>
@@ -140,8 +144,6 @@ export const HabitComponent: FC = () => {
                           const beforehabitName = (e.currentTarget.getAttribute('data-name')!);
                           const beforehabitType = parseInt(e.currentTarget.getAttribute('data-t')!);
                           const beforehabitStatus = parseInt(e.currentTarget.getAttribute('data-s')!);
-
-     
                           if (beforehabitType === 1) {
                             Swal.fire({
                               title: '編輯習慣',
@@ -157,10 +159,10 @@ export const HabitComponent: FC = () => {
                               preConfirm: async () => {
                                 const input1 = document.querySelector('#input1') as HTMLInputElement;
                                 const input2 = document.querySelector('input[name="input2"]:checked') as HTMLInputElement;
-
+                             
                                 const habitName = input1.value;
                                 const status = parseInt(input2.value);
-  
+                             
 
                                 if (beforehabitName === habitName && status == beforehabitStatus) {
                                   showSuccess('修改成功!')
@@ -170,6 +172,7 @@ export const HabitComponent: FC = () => {
                                     const target = habitArr[indexToUpdate];
                                     habitArr.splice(indexToUpdate, 1);
                                     const updateArr = [...habitArr, { ...target, habitName, status }]
+                                    console.log(updateArr)
                                     setHabitArr(updateArr);
                                   }
                                   Swal.fire({
@@ -197,16 +200,21 @@ export const HabitComponent: FC = () => {
                                 const input2 = document.querySelector('#input2') as HTMLInputElement;
                                 const habitName = input1.value;
                                 const status = parseInt(input2.value);
-                                await updateHabitAPI({ habitId, habitName, status })
-                                if (beforehabitName === habitName) {
+                                console.log(status)
+                             
+                                if (beforehabitName === habitName && status == beforehabitStatus) {
                                   showSuccess('修改成功!')
                                 } else {
+
                                   await updateHabitAPI({ habitId, habitName, status })
                                   const indexToUpdate = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
+                                  console.log(indexToUpdate)
                                   if (indexToUpdate !== -1) {
                                     const target = habitArr[indexToUpdate];
                                     habitArr.splice(indexToUpdate, 1);
+                                    console.log(habitArr)
                                     const updateArr = [...habitArr, { ...target, habitName, status }]
+                                    console.log(updateArr)
                                     setHabitArr(updateArr);
                                   }
                                   Swal.fire({
@@ -250,7 +258,7 @@ export const HabitComponent: FC = () => {
                               confirmButtonText: "OK!"
                             }).then(async (result) => {
                               if (result.isConfirmed) {
-                                await deleteUserHabit(item.habitId)
+                                await deleteUserHabitAPI(item.habitId)
                                 const indexToDelete = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
 
                                 if (indexToDelete !== -1) {
@@ -273,11 +281,15 @@ export const HabitComponent: FC = () => {
               </tbody>
             </table>
           </div>
-          )}
+          ) : (<div>  開始您的第一個習慣😊，請點選右下角的按鈕 </div>)
+          
+          
+          
+          }
         </div>
       </div>
-
-      {
+      <a  className="create-btn" href={CREATE_HABIT_URL}><FontAwesomeIcon icon={fas.faPlus} /></a>    
+      {/* {
         creating && <div className="create-habit-container">
           <EditHabit onSave={handleCreateNewHabit} onCancel={handleOnCancel} />
         </div>
@@ -290,7 +302,9 @@ export const HabitComponent: FC = () => {
           <a onClick={showCreate}>養成新習慣 <FontAwesomeIcon icon={fas.faPlus} /></a>
 
         </div>
-      }
+      } */}
+
+
 
     </>
 
@@ -299,3 +313,5 @@ export const HabitComponent: FC = () => {
 
   )
 }
+
+
