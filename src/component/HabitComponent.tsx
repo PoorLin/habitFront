@@ -1,27 +1,20 @@
 import { faPlus, fas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEventHandler, FC, MouseEventHandler, useEffect, useState } from "react";
-import { createHabitAPI, deleteUserHabitAPI, getUserHabitAPI, updateHabitAPI, updateHabitStatusAPI } from "../api/habitAPI";
-import { Habit, HabitStatus, NewHabit } from "../model/habit";
-import { EditHabit } from "./EditHabit";
+import { FC, MouseEventHandler, useEffect, useState } from "react";
+import { deleteUserHabitAPI, getUserHabitAPI, } from "../api/habitAPI";
+import { HabitStatus } from "../model/habit";
 import Cookies from 'js-cookie';
 import { HabitProp } from "../model/EditProp";
 import Swal from 'sweetalert2';
-import { CREATE_HABIT_URL, ERROR_Habit, ERROR_Habit_TYPE, INIT_TYPE } from "../const/commonConst";
+import { CREATE_HABIT_URL, HABIT_EDIT } from "../const/commonConst";
 import { showErrorNoText, showSuccess } from "../utils/apiUtil";
+import { useNavigate } from "react-router-dom";
 
 
 
 
 export const HabitComponent: FC = () => {
-
-
-
-
-
-  
-
-
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     const userId = Cookies.get('userId')
@@ -35,50 +28,14 @@ export const HabitComponent: FC = () => {
   }, []);
 
 
-  const [creating, setCreating] = useState<boolean>(false);
-  const showCreate: MouseEventHandler<HTMLAnchorElement> = () => {
-    setCreating(true);
-  }
-
-  const handleCreateNewHabit = async (newHabit: NewHabit) => {
-    const userId = parseInt(Cookies.get('userId')!);
-    if (newHabit.newHabitName == '') {
-      showErrorNoText(ERROR_Habit)
-    } else if (newHabit.newHabitType == INIT_TYPE) {
-      showErrorNoText(ERROR_Habit_TYPE)
-    }
-    else {
-      const setToHabit = await createHabitAPI({
-        userId: userId,
-        habitName: newHabit.newHabitName,
-        type: newHabit.newHabitType
-
-      });
-
-      Swal.fire({
-        title: '成功建立!',
-        icon: 'success',
-        showCancelButton: false,
-        confirmButtonText: 'OK',
-      })
-      setHabitArr([...habitArr, setToHabit.data])
-
-    }
-
-    setCreating(false);
-
-  }
-  const handleOnCancel = () => {
-    setCreating(false);
-  }
 
   return (
 
     <>
-    
+
       <h2 className="slogan">
-      😊
-        ~每天進步1%，一年後你將進步37倍~
+
+        ~每天進步1%，一年後你將進步37倍 😊~
       </h2>
 
       <div className="container">
@@ -123,13 +80,13 @@ export const HabitComponent: FC = () => {
 
                       </>) : (<>
                         {/* 非量化輸入值 區塊 */}
-                       {
-                           item.status === HabitStatus.UNDO ? (    <label htmlFor=""> 未完成
-                           <input type="radio" value={HabitStatus.UNDO} name={`${item.habitId}`}   />
-                         </label>) : (        <label htmlFor=""> 已完成
-                          <input type="radio" value={HabitStatus.DONE} name={`${item.habitId}`}   />
-                        </label>)  
-                       }
+                        {
+                          item.status === HabitStatus.UNDO ? (<label htmlFor=""> 未完成
+                            <input type="radio" value={HabitStatus.UNDO} name={`${item.habitId}`} />
+                          </label>) : (<label htmlFor=""> 已完成
+                            <input type="radio" value={HabitStatus.DONE} name={`${item.habitId}`} />
+                          </label>)
+                        }
 
                       </>
                       )
@@ -138,98 +95,99 @@ export const HabitComponent: FC = () => {
                     </td>
                     <td className="">
                       <a className="edit">
-                        <FontAwesomeIcon  icon={fas.faEdit} data-id={item.habitId} data-name={item.habitName} data-t={item.type} data-s={item.status} onClick={(e) => {
+                        <FontAwesomeIcon icon={fas.faEdit} data-id={item.habitId} data-name={item.habitName} data-t={item.type} data-s={item.status} onClick={(e) => {
+                          navigate(`${HABIT_EDIT}${item.habitId}`)
 
-                          const habitId = parseInt(e.currentTarget.getAttribute('data-id')!);
-                          const beforehabitName = (e.currentTarget.getAttribute('data-name')!);
-                          const beforehabitType = parseInt(e.currentTarget.getAttribute('data-t')!);
-                          const beforehabitStatus = parseInt(e.currentTarget.getAttribute('data-s')!);
-                          if (beforehabitType === 1) {
-                            Swal.fire({
-                              title: '編輯習慣',
-                              html:
-                                `<div class='swal-update-habit'><label> 習慣名稱 :<label/> <input id="input1" type="text" value=${beforehabitName} class="swal2-input" placeholder="輸入密碼">` +
-                                `<label> 執行狀況 :<label/><br><label> 未完成 :<input name="input2" value='0' type="radio"  class="" ${beforehabitStatus === 0 ? 'checked' : ''}>` +
-                                `<label> 已完成 :<input name="input2" type="radio"  class="" value='1' ${beforehabitStatus === 1 ? 'checked' : ''}>` +
-                                `</div>`,
-                              showCancelButton: true,
-                              confirmButtonText: '送出',
-                              cancelButtonText: '取消',
-                              showLoaderOnConfirm: true,
-                              preConfirm: async () => {
-                                const input1 = document.querySelector('#input1') as HTMLInputElement;
-                                const input2 = document.querySelector('input[name="input2"]:checked') as HTMLInputElement;
-                             
-                                const habitName = input1.value;
-                                const status = parseInt(input2.value);
-                             
+                          // const habitId = parseInt(e.currentTarget.getAttribute('data-id')!);
+                          // const beforehabitName = (e.currentTarget.getAttribute('data-name')!);
+                          // const beforehabitType = parseInt(e.currentTarget.getAttribute('data-t')!);
+                          // const beforehabitStatus = parseInt(e.currentTarget.getAttribute('data-s')!);
+                          // if (beforehabitType === 1) {
+                          //   Swal.fire({
+                          //     title: '編輯習慣',
+                          //     html:
+                          //       `<div class='swal-update-habit'><label> 習慣名稱 :<label/> <input id="input1" type="text" value=${beforehabitName} class="swal2-input" placeholder="輸入密碼">` +
+                          //       `<label> 執行狀況 :<label/><br><label> 未完成 :<input name="input2" value='0' type="radio"  class="" ${beforehabitStatus === 0 ? 'checked' : ''}>` +
+                          //       `<label> 已完成 :<input name="input2" type="radio"  class="" value='1' ${beforehabitStatus === 1 ? 'checked' : ''}>` +
+                          //       `</div>`,
+                          //     showCancelButton: true,
+                          //     confirmButtonText: '送出',
+                          //     cancelButtonText: '取消',
+                          //     showLoaderOnConfirm: true,
+                          //     preConfirm: async () => {
+                          //       const input1 = document.querySelector('#input1') as HTMLInputElement;
+                          //       const input2 = document.querySelector('input[name="input2"]:checked') as HTMLInputElement;
 
-                                if (beforehabitName === habitName && status == beforehabitStatus) {
-                                  showSuccess('修改成功!')
-                                } else {
-                                  const indexToUpdate = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
-                                  if (indexToUpdate !== -1) {
-                                    const target = habitArr[indexToUpdate];
-                                    habitArr.splice(indexToUpdate, 1);
-                                    const updateArr = [...habitArr, { ...target, habitName, status }]
-                                    console.log(updateArr)
-                                    setHabitArr(updateArr);
-                                  }
-                                  Swal.fire({
-                                    title: "修改成功!",
-                                    icon: "success"
-                                  });
-                                }
-                              },
-                            })
-                          } else {
+                          //       const habitName = input1.value;
+                          //       const status = parseInt(input2.value);
 
 
-                            Swal.fire({
-                              title: '編輯習慣',
-                              html:
-                                `<div class='swal-update-habit'><label> 習慣名稱 :<label/> <input id="input1" type="text" value=${beforehabitName} class="swal2-input" >` +
-
-                                `<label> 執行狀況 :<label/><input id="input2" type="text" value=${beforehabitStatus} class="swal2-input"></div>`,
-                              showCancelButton: true,
-                              confirmButtonText: '送出',
-                              cancelButtonText: '取消',
-                              showLoaderOnConfirm: true,
-                              preConfirm: async () => {
-                                const input1 = document.querySelector('#input1') as HTMLInputElement;
-                                const input2 = document.querySelector('#input2') as HTMLInputElement;
-                                const habitName = input1.value;
-                                const status = parseInt(input2.value);
-                                console.log(status)
-                             
-                                if (beforehabitName === habitName && status == beforehabitStatus) {
-                                  showSuccess('修改成功!')
-                                } else {
-
-                                  await updateHabitAPI({ habitId, habitName, status })
-                                  const indexToUpdate = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
-                                  console.log(indexToUpdate)
-                                  if (indexToUpdate !== -1) {
-                                    const target = habitArr[indexToUpdate];
-                                    habitArr.splice(indexToUpdate, 1);
-                                    console.log(habitArr)
-                                    const updateArr = [...habitArr, { ...target, habitName, status }]
-                                    console.log(updateArr)
-                                    setHabitArr(updateArr);
-                                  }
-                                  Swal.fire({
-                                    title: "修改成功!",
-                                    icon: "success"
-                                  });
-
-                                }
+                          //       if (beforehabitName === habitName && status == beforehabitStatus) {
+                          //         showSuccess('修改成功!')
+                          //       } else {
+                          //         const indexToUpdate = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
+                          //         if (indexToUpdate !== -1) {
+                          //           const target = habitArr[indexToUpdate];
+                          //           habitArr.splice(indexToUpdate, 1);
+                          //           const updateArr = [...habitArr, { ...target, habitName, status }]
+                          //           console.log(updateArr)
+                          //           setHabitArr(updateArr);
+                          //         }
+                          //         Swal.fire({
+                          //           title: "修改成功!",
+                          //           icon: "success"
+                          //         });
+                          //       }
+                          //     },
+                          //   })
+                          // } else {
 
 
-                              },
+                          //   Swal.fire({
+                          //     title: '編輯習慣',
+                          //     html:
+                          //       `<div class='swal-update-habit'><label> 習慣名稱 :<label/> <input id="input1" type="text" value=${beforehabitName} class="swal2-input" >` +
 
-                            })
+                          //       `<label> 執行狀況 :<label/><input id="input2" type="text" value=${beforehabitStatus} class="swal2-input"></div>`,
+                          //     showCancelButton: true,
+                          //     confirmButtonText: '送出',
+                          //     cancelButtonText: '取消',
+                          //     showLoaderOnConfirm: true,
+                          //     preConfirm: async () => {
+                          //       const input1 = document.querySelector('#input1') as HTMLInputElement;
+                          //       const input2 = document.querySelector('#input2') as HTMLInputElement;
+                          //       const habitName = input1.value;
+                          //       const status = parseInt(input2.value);
+                          //       console.log(status)
 
-                          }
+                          //       if (beforehabitName === habitName && status == beforehabitStatus) {
+                          //         showSuccess('修改成功!')
+                          //       } else {
+
+                          //         await updateHabitAPI({ habitId, habitName, status })
+                          //         const indexToUpdate = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
+                          //         console.log(indexToUpdate)
+                          //         if (indexToUpdate !== -1) {
+                          //           const target = habitArr[indexToUpdate];
+                          //           habitArr.splice(indexToUpdate, 1);
+                          //           console.log(habitArr)
+                          //           const updateArr = [...habitArr, { ...target, habitName, status }]
+                          //           console.log(updateArr)
+                          //           setHabitArr(updateArr);
+                          //         }
+                          //         Swal.fire({
+                          //           title: "修改成功!",
+                          //           icon: "success"
+                          //         });
+
+                          //       }
+
+
+                          //     },
+
+                          //   })
+
+                          // }
 
 
 
@@ -282,13 +240,13 @@ export const HabitComponent: FC = () => {
             </table>
           </div>
           ) : (<div>  開始您的第一個習慣😊，請點選右下角的按鈕 </div>)
-          
-          
-          
+
+
+
           }
         </div>
       </div>
-      <a  className="create-btn" href={CREATE_HABIT_URL}><FontAwesomeIcon icon={fas.faPlus} /></a>    
+      <a className="create-btn" href={CREATE_HABIT_URL}><FontAwesomeIcon icon={fas.faPlus} /></a>
       {/* {
         creating && <div className="create-habit-container">
           <EditHabit onSave={handleCreateNewHabit} onCancel={handleOnCancel} />

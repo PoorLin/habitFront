@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CreateHabitProp, EditHabit, EditHabitStatus, Habit, HabitStatus, MakeChartProp } from "../model/habit";
+import { CreateHabitProp, EditHabit, EditHabitProp, EditHabitStatus, Habit, HabitStatus, MakeChartProp } from "../model/habit";
 import { BackEndReturn } from "../model/BackEndReturn";
 import { BASE_URL, HABIT_ALREADY_EXIST, HABIT_ALREADY_EXIST_NUMBER, SERVERERROR, SUCCESS_NUMBER, TIMEOUT_NUMBER, handleError, showError, showErrorNoText, showloading, showloadingForFetch } from "../utils/apiUtil";
 
@@ -37,7 +37,7 @@ export const createHabitAPI = async (habit: CreateHabitProp): Promise<BackEndRet
 }
 
 
-export const updateHabitAPI = async (habit: EditHabit): Promise<BackEndReturn> => {
+export const updateHabitAPI = async (habit: EditHabitProp): Promise<BackEndReturn> => {
   try {
     showloading();
     const res =((await axios.put(`${baseUrl}/${habit.habitId}`, habit,{
@@ -141,6 +141,24 @@ export const deleteUserHabitAPI = async (habitId: number): Promise<BackEndReturn
 export const getTagsAPI = async (): Promise<BackEndReturn> => {
   try{
     const res =  ((await axios.get(`${baseUrl}/getTags`, {
+      timeout: TIMEOUT_NUMBER,
+    } )).data)
+    if (res.returnCode === SUCCESS_NUMBER) {
+      return res;
+    } else {
+      //若非200，則自定義失敗請求
+      throw new Error(`Request failed with status code ${res.returnCode}`);
+    }
+  }catch (error) {
+    handleError(error,SERVERERROR);
+    return Promise.reject(error);
+  }
+}
+
+
+export const getOneHabitAPI = async (habitId:number): Promise<BackEndReturn> => {
+  try{
+    const res =  ((await axios.get(`${baseUrl}/findOneHabit/${habitId}`, {
       timeout: TIMEOUT_NUMBER,
     } )).data)
     if (res.returnCode === SUCCESS_NUMBER) {

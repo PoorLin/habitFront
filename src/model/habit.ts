@@ -41,12 +41,24 @@ export interface MakeChartResProp {
 }
 export interface NewHabit {
     newHabitName: string,
-    newHabitType:number
+    newHabitType:number,
+    unitType:number,
+    habitTarget:number
 }
 
 export interface CreateHabitProp {
     userId: number,
     habitName: string,
-    type:number
+    type:number,
+    unitTypeId:number,
+    habitTarget:number
+}
+
+export interface EditHabitProp {
+    habitId: number,
+    habitName: string,
+    type:number,
+    unitTypeId:number,
+    habitTarget:number
 }
 

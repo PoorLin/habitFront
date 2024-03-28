@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import { UserReturn } from "../model/UserReturn";
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import Swal from 'sweetalert2';
+import { HABITHR_URL, HABIT_URL } from "../const/commonConst";
 
 
 
@@ -23,7 +24,6 @@ export const Nav: FC = () => {
     }
   }, []); // 空数组作为依赖，表示只在组件挂载时执行一次
   const [className, setClassName] = useState<string>('modal');
-  const [habitPage, setHabitPage] = useState<boolean>(false);
   const [secret, setSecret] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const handleSecretOnchange = (e: any) => {
@@ -33,6 +33,15 @@ export const Nav: FC = () => {
     setEmail(e.target.value)
   }
 
+  const handleClickhabit = () => {
+        navigate(HABIT_URL)
+}
+
+const handleClickHabitList = () => {
+      navigate(HABITHR_URL)
+  }
+
+
   const handleOpenModal: MouseEventHandler<HTMLAnchorElement> = () => {
     setClassName("modal is-active")
   }
@@ -41,9 +50,6 @@ export const Nav: FC = () => {
   }
   const handleBtnCloseModal: MouseEventHandler<HTMLButtonElement> = () => {
     setClassName("modal")
-  }
-  const handleBtnOpenModal: MouseEventHandler<HTMLButtonElement> = () => {
-    setClassName("modal is-active")
   }
   const handleRedirectTOHabitPage: MouseEventHandler<HTMLAnchorElement> = () => {
     setIsFromHabit(true);
@@ -225,11 +231,17 @@ export const Nav: FC = () => {
 
         <nav className="right-nav col-3">
 
-          <div>
-            <a className="navbar-item has-text-weight-bold pr-6" onClick={handleRedirectTOHabitPage} >
-              Form a Habit
-            </a>
-          </div>
+        <ul>
+  <li className="dropdown">
+      <a  className="dropbtn">Form a Habit</a>
+      <div className="dropdown-content">
+          <a onClick={handleClickhabit}>Habit List</a>
+          <a onClick={handleClickHabitList}>Habit Record</a>
+        
+      </div>
+      
+  </li>
+</ul>
 
         </nav>
 {

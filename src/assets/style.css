@@ -82,8 +82,19 @@ h1{
       /* 最大寬度 */
     /* margin: auto;      外邊界:自動 */
     font-size: 12px;
-        /* 以高度的方向置中*/
+        
   
+}
+
+.flex-wrap-container{ 
+  display: flex;
+  flex-wrap: wrap;
+  width:100%;         /* 寬度 */
+    /* 最大寬度 */
+  /* margin: auto;      外邊界:自動 */
+  font-size: 12px;
+      
+
 }
 
 .create-habit-container{
@@ -137,6 +148,17 @@ h1{
 
 }
 
+
+.select,.h-text{
+  width: 40%;
+  padding: 10px 8px;
+  border:1px solid lightgray;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  display: block;
+  margin: 2% 30% 2% 30%;
+}
+
 .sidebar{
     padding: 0;
     margin-left: 10%;
@@ -175,7 +197,7 @@ h1{
 
 
   }
-  .modal-body label,.sider-container label{
+  .modal-body label,.container label{
     text-align: center;
     margin:2% 15% 2% 15%  ;
     display: block;
@@ -303,6 +325,7 @@ nav a{
 }
 
 .dropdown {
+  list-style-type: none;
     position: relative;
 }
 
@@ -334,7 +357,7 @@ nav a{
 }
 
 
- 
+
 
 /* 登入按鈕 */
 .loginButton {
@@ -617,34 +640,30 @@ tr:hover{
     left: 22%;
     margin: 0 25% 0 25%;
   }
-
-
-
-  /* 標籤 tag */
-  .tag-container {
-    width: 10%;
- display: inline-block;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 4px 8px;
-    margin-right: 8px;
-    margin-bottom: 8px;
+  .ma{
+    margin: 0 47% 0 47%;
+   }
+   .tag-container {
+    margin: 0 40% 0 40%;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
   }
-  .col-2>button {
-    background-color: transparent;
-    border: none;
+  
+  .tag {
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
     cursor: pointer;
-    margin-left: 4px;
-    font-size: 20px;
+  }
+  
+  .tag.selected {
+    background-color: #2196f3;
+    color: #fff;
   }
 
-  .inline{
-    display: inline-block;
-  }
 
+  
 
 
 

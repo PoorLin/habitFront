@@ -17,9 +17,6 @@ export const HabitSideBar: FC = () => {
             setSideBar2Class("active")
             navigate("/AH/habitHome/hr")
         }
-
-
-
     }
     return (
         <div className="sider-container ">
