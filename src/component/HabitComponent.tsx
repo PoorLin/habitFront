@@ -45,8 +45,8 @@ export const HabitComponent: FC = () => {
               <thead>
                 <tr>
                   <th >名稱</th>
-                  <th >今日執行狀況</th>
-                  <th></th>
+                  <th >最近的狀況</th>
+                  <th>編輯</th>
                   <th >建立日期</th>
                 </tr>
               </thead>
@@ -56,41 +56,9 @@ export const HabitComponent: FC = () => {
                   <tr key={item.habitId}>
                     <td >{item.habitName}</td>
                     <td >
-                      {item.type === 0 ? (<>
-                        {/* 量化輸入值 區塊 */}
-                        <label htmlFor="">{item.habitName} : </label>
-                        <input type="text" name={`${item.habitId}`} value={item.status} readOnly
-                          onBlur={async (e) => {
-                            const status = parseInt(e.target.value);
-                            if (status < 0 || status > 21474830) {
-                              showErrorNoText('請輸入正常數字')
-                            } else {
-                              const habitId = parseInt(e.currentTarget.getAttribute('name')!)
-                              const indexToUpdate = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
-                              if (indexToUpdate !== -1) {
-                                const target = habitArr[indexToUpdate];
-                                habitArr.splice(indexToUpdate, 1);
-                                const updateArr = [...habitArr, { ...target, status }]
-                                setHabitArr(updateArr);
-                                showSuccess('成功')
-                              }
-                            }
-                          }}
-                        />
+                   
 
-                      </>) : (<>
-                        {/* 非量化輸入值 區塊 */}
-                        {
-                          item.status === HabitStatus.UNDO ? (<label htmlFor=""> 未完成
-                            <input type="radio" value={HabitStatus.UNDO} name={`${item.habitId}`} />
-                          </label>) : (<label htmlFor=""> 已完成
-                            <input type="radio" value={HabitStatus.DONE} name={`${item.habitId}`} />
-                          </label>)
-                        }
 
-                      </>
-                      )
-                      }
 
                     </td>
                     <td className="">
