@@ -20,6 +20,7 @@ export const EditHabit: FC = () => {
         const tags = await getTagsAPI();
         setUnitArr(tags.data);
         const oneHabit:EditHabitProp =(await getOneHabitAPI(parseInt(habitId!))).data;
+        console.log(oneHabit);
         setHabitName(oneHabit.habitName);
         setHabitTarget(oneHabit.habitTarget)
         setHabitType(oneHabit.type);

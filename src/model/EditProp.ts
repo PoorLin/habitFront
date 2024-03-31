@@ -12,3 +12,10 @@ export interface HabitProp{
   status:number,
   type:number
 }
+export interface HabitRecordList{
+  isSuccess:number,
+  habitRecordId:number,
+  habitId:number,
+  recordDate:string,
+  status:number
+}

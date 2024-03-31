@@ -60,7 +60,7 @@ export const CreateHabit: FC = () => {
         }
 
     }
-
+    
 
     const handleCreateNewHabit = async () => {
         const userId = parseInt(Cookies.get('userId')!);

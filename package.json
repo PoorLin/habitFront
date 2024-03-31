@@ -28,6 +28,7 @@
     "openai": "^4.29.2",
     "playfab-sdk": "^2.150.240315",
     "react": "^18.2.0",
+    "react-datepicker": "^6.6.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
     "sweetalert2": "^11.10.6",

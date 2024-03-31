@@ -55,6 +55,12 @@ h1{
 .col-10{width: 83.33333333%;}
 .col-11{width: 91.66666667%;}
 .col-12{width: 100%;}
+.mg-1{margin: 2% 10% 2% 10%;}
+.mg-l1{margin: 2% 5% 2% 5%;}
+.mg-2{margin: 2% 2% 2% 20%;}
+.mg-3{margin: 2% 30% 2% 30%;}
+.mg-4{margin: 2% 40% 2% 40%;}
+.mg-5{margin: 2% 50% 2% 50%;}
 
 .container{
     width:90%;         /* 寬度 */
@@ -287,6 +293,11 @@ nav a{
 .header-container>.right-nav{
     margin-left: 5%; 
 }
+.inline{
+  display: inline-block;
+}
+
+
 
 
 
@@ -660,6 +671,52 @@ tr:hover{
   .tag.selected {
     background-color: #2196f3;
     color: #fff;
+  }
+
+  .false{
+    color: crimson;
+  }
+  .succ{
+    color: #14538f;
+  }
+
+  .record-container{
+   box-sizing: border-box;
+  }
+
+  .card{
+    border-radius: 5%;
+    border: 1px solid #141414; /* 添加边框 */
+    background-color: #1453a5;
+  }
+  .failCard{
+
+    background-image: url('./successCard.jpeg');
+  }
+  .succCard{
+    border-bottom-left-radius: 5%;
+    border-bottom-right-radius: 5%;
+    max-width: 100%;
+    height: 300px;
+    background-image: url('./successCard.jpeg');
+    background-size: cover; /* 讓背景圖片自適應並填充整個容器 */
+  }
+  .text-center{
+    text-align: center;
+  }
+  .card-header{
+    font-size: 24px;
+    color: white;
+  }
+  .card-content{
+    font-size: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .fs-16{
+    font-size: 16px;
   }
 
 

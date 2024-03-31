@@ -172,3 +172,110 @@ export const getOneHabitAPI = async (habitId:number): Promise<BackEndReturn> => 
     return Promise.reject(error);
   }
 }
+
+
+export const getUserWeekRecordAPI = async (habitId:number): Promise<BackEndReturn> => {
+  try{
+    const res =  ((await axios.get(`${baseUrl}/findLatestWeekRecord/${habitId}`, {
+      timeout: TIMEOUT_NUMBER,
+    } )).data)
+    if (res.returnCode === SUCCESS_NUMBER) {
+      return res;
+    } else {
+      //若非200，則自定義失敗請求
+      throw new Error(`Request failed with status code ${res.returnCode}`);
+    }
+  }catch (error) {
+    handleError(error,SERVERERROR);
+    return Promise.reject(error);
+  }
+}
+
+export const findSuccRateAPI = async (userId:number): Promise<BackEndReturn> => {
+  try{
+    const res =  ((await axios.get(`${baseUrl}/findSuccRate/${userId}`, {
+      timeout: TIMEOUT_NUMBER,
+    } )).data)
+    if (res.returnCode === SUCCESS_NUMBER) {
+      return res;
+    } else {
+      //若非200，則自定義失敗請求
+      throw new Error(`Request failed with status code ${res.returnCode}`);
+    }
+  }catch (error) {
+    handleError(error,SERVERERROR);
+    return Promise.reject(error);
+  }
+}
+
+export const findSuccRateYearAPI = async (userId:number,year:number): Promise<BackEndReturn> => {
+  try{
+    const res =  ((await axios.get(`${baseUrl}/findSuccRateYear?userId=${userId}&year=${year}`, {
+      timeout: TIMEOUT_NUMBER,
+    } )).data)
+    if (res.returnCode === SUCCESS_NUMBER) {
+      return res;
+    } else {
+      //若非200，則自定義失敗請求
+      throw new Error(`Request failed with status code ${res.returnCode}`);
+    }
+  }catch (error) {
+    handleError(error,SERVERERROR);
+    return Promise.reject(error);
+  }
+}
+
+
+
+export const getHrExistYearsAPI = async (userId:number): Promise<BackEndReturn> => {
+  try{
+    const res =  ((await axios.get(`${baseUrl}/getHrExistYears/${userId}`, {
+      timeout: TIMEOUT_NUMBER,
+    } )).data)
+    if (res.returnCode === SUCCESS_NUMBER) {
+      return res;
+    } else {
+      //若非200，則自定義失敗請求
+      throw new Error(`Request failed with status code ${res.returnCode}`);
+    }
+  }catch (error) {
+    handleError(error,SERVERERROR);
+    return Promise.reject(error);
+  }
+}
+
+
+export const getHrExistYMAPI = async (userId:number): Promise<BackEndReturn> => {
+  try{
+    const res =  ((await axios.get(`${baseUrl}/getHrExistYearAndMonth/${userId}`, {
+      timeout: TIMEOUT_NUMBER,
+    } )).data)
+    if (res.returnCode === SUCCESS_NUMBER) {
+      return res;
+    } else {
+      //若非200，則自定義失敗請求
+      throw new Error(`Request failed with status code ${res.returnCode}`);
+    }
+  }catch (error) {
+    handleError(error,SERVERERROR);
+    return Promise.reject(error);
+  }
+}
+
+
+export const findSuccRateYMAPI = async (userId:number,year:string): Promise<BackEndReturn> => {
+  try{
+    const res =  ((await axios.get(`${baseUrl}/findSuccRateYM?userId=${userId}&ym=${year}`, {
+      timeout: TIMEOUT_NUMBER,
+    } )).data)
+    if (res.returnCode === SUCCESS_NUMBER) {
+      return res;
+    } else {
+      //若非200，則自定義失敗請求
+      throw new Error(`Request failed with status code ${res.returnCode}`);
+    }
+  }catch (error) {
+    handleError(error,SERVERERROR);
+    return Promise.reject(error);
+  }
+}

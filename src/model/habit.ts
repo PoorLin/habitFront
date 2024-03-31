@@ -62,3 +62,8 @@ export interface EditHabitProp {
     habitTarget:number
 }
 
+export interface HabitSuccRate {
+    is_success: number,
+    succCount: string,
+}
+
