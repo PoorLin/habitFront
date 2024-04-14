@@ -6,7 +6,7 @@ import { Picker as Picker2 } from 'emoji-mart'
 import { init } from 'emoji-mart'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { ERROR_Habit, ERROR_Habit_TARGET, ERROR_Habit_TYPE, HABIT_URL, INIT_TYPE, NUMBER_NOT_TYPE } from "../const/commonConst";
-import { createHabitAPI, getOneHabitAPI, getTagsAPI, updateHabitAPI } from "../api/habitAPI";
+import { getOneHabitAPI, getTagsAPI, updateHabitAPI } from "../api/habitAPI";
 import { UnitType } from "../model/UnitType";
 import { showError, showErrorNoText } from "../utils/apiUtil";
 import Cookies from 'js-cookie';
@@ -17,10 +17,13 @@ export const EditHabit: FC = () => {
     const navigate = useNavigate();
     let { habitId } = useParams();
     const getTags = async () => {
-        const tags = await getTagsAPI();
+        const token = Cookies.get('token')
+        const tags = await getTagsAPI(token!);
         setUnitArr(tags.data);
-        const oneHabit:EditHabitProp =(await getOneHabitAPI(parseInt(habitId!))).data;
-        console.log(oneHabit);
+        const oneHabit:EditHabitProp =(await getOneHabitAPI({
+            habitId:parseInt(habitId!),
+            token:token!
+        })).data;
         setHabitName(oneHabit.habitName);
         setHabitTarget(oneHabit.habitTarget)
         setHabitType(oneHabit.type);
@@ -74,6 +77,7 @@ export const EditHabit: FC = () => {
 
 
     const handleEditHabit = async () => {
+        const token = Cookies.get('token')
         if (habitName == '') {
           showErrorNoText(ERROR_Habit)
         } else if (habitType === INIT_TYPE) {
@@ -83,7 +87,12 @@ export const EditHabit: FC = () => {
         }
         else {
           
-            await updateHabitAPI({habitId,habitName,habitTarget,type:habitType!,unitTypeId:unitType});
+            await updateHabitAPI({
+                habitId,habitName,
+                habitTarget,type:habitType!,
+                unitTypeId:unitType,
+                token : token!
+            });
     
           Swal.fire({
             title: '成功更改!',

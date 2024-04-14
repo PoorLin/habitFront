@@ -1,14 +1,15 @@
 import { faPlus, faRssSquare, fas,faSquareCheck,faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC, MouseEventHandler, useEffect, useState } from "react";
-import { deleteUserHabitAPI, getUserHabitAPI, getUserWeekRecordAPI, updateHabitStatusAPI, } from "../api/habitAPI";
+import { deleteUserHabitAPI, getUserHabitAPI, updateHabitStatusAPI, } from "../api/habitAPI";
 import { HabitStatus } from "../model/habit";
 import Cookies from 'js-cookie';
 import { HabitProp, HabitRecordList } from "../model/EditProp";
 import Swal from 'sweetalert2';
 import { CREATE_HABIT_URL, HABIT_EDIT } from "../const/commonConst";
-import { showErrorNoText, showSuccess } from "../utils/apiUtil";
+import { showError, showErrorNoText, showSuccess } from "../utils/apiUtil";
 import { useNavigate } from "react-router-dom";
+import { getUserWeekRecordAPI } from "../api/UserAPI";
 
 
 
@@ -23,19 +24,30 @@ export const HabitComponent: FC = () => {
 
 
     const userId = Cookies.get('userId')
-    const res = await getUserHabitAPI(parseInt(userId!));
+    const token = Cookies.get('token')
+    if(userId === undefined ){
+        showErrorNoText('請先登入');
+        navigate('/AH');
 
-    setHabitArr(res.data);
-    console.log('test'+res.data)
-    await Promise.all(res.data.map(async (item) => {
-      const hc = await getUserWeekRecordAPI(item.habitId);
-      return hc.data;
-  })).then((results) => {
-      const mergedData = results.flat(); // 將所有數組合併成一個數組
-      setHabitRecordList([...habitRecordList, ...mergedData]);
-  }).catch((error) => {
-      console.error('Error fetching week records:', error);
-  });
+    }else{
+      const res = await getUserHabitAPI({
+        userId : parseInt(userId),
+        token : token!
+    
+      });
+      
+      setHabitArr(res.data);
+      await Promise.all(res.data.map(async (item) => {
+        const hc = await getUserWeekRecordAPI(item.habitId);
+        return hc.data;
+    })).then((results) => {
+        const mergedData = results.flat(); // 將所有數組合併成一個數組
+        setHabitRecordList([...habitRecordList, ...mergedData]);
+    }).catch((error) => {
+        console.error('Error fetching week records:', error);
+    });
+    }
+
   
 
     // const res = await getUserWeekRecordAPI();
@@ -118,7 +130,8 @@ export const HabitComponent: FC = () => {
 
                                 const newHabitArr = [...habitArr];
                              
-                  
+                    
+                                const token = Cookies.get('token');
                           
                                 const indexToUpdate = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
                                 newHabitArr[indexToUpdate] = {...newHabitArr[indexToUpdate],status}
@@ -126,7 +139,7 @@ export const HabitComponent: FC = () => {
                                     setHabitArr(newHabitArr);
 
                     
-                                await updateHabitStatusAPI({ habitId,status })
+                                await updateHabitStatusAPI({ habitId,status,token })
                                   Swal.fire({
                                     title: "修改成功!",
                                     icon: "success"
@@ -159,8 +172,8 @@ export const HabitComponent: FC = () => {
 
                                           
                                            setHabitArr(newHabitArr);
-
-                                  await updateHabitStatusAPI({ habitId,status })
+                                           const token = Cookies.get('token');
+                                  await updateHabitStatusAPI({ habitId,status,token })
                             
                             
                                   
@@ -321,8 +334,12 @@ export const HabitComponent: FC = () => {
                               cancelButtonColor: "#d33",
                               confirmButtonText: "OK!"
                             }).then(async (result) => {
+                              const token = Cookies.get('token');
                               if (result.isConfirmed) {
-                                await deleteUserHabitAPI(item.habitId)
+                                await deleteUserHabitAPI({
+                                  habitId:item.habitId,
+                                  token:token!
+                                })
                                 const indexToDelete = habitArr.findIndex((insideitem) => insideitem.habitId === item.habitId);
 
                                 if (indexToDelete !== -1) {

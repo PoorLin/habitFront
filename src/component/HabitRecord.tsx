@@ -1,12 +1,13 @@
 import { ChangeEventHandler, FC, useEffect, useState } from "react";
 import { VictoryChart, VictoryAxis, VictoryBar } from 'victory';
 import { HabitProp } from "../model/EditProp";
-import { findSuccRateAPI, findSuccRateYMAPI, findSuccRateYearAPI, getHrExistYMAPI, getHrExistYearsAPI, getUserHabitAPI, makeChartAPI } from "../api/habitAPI";
+import { getUserHabitAPI } from "../api/habitAPI";
 import Cookies from 'js-cookie';
 import { HabitRecordProp, HabitSuccRate, MakeChartResProp } from "../model/habit";
 import { ChartComponent } from "./ChartComponent";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { findSuccRateAPI, findSuccRateYMAPI, findSuccRateYearAPI, getHrExistYMAPI, getHrExistYearsAPI } from "../api/UserAPI";
 
 
 export const HabitRecord: FC = () => {
@@ -58,12 +59,16 @@ export const HabitRecord: FC = () => {
 
   const handleOCSelect: ChangeEventHandler<HTMLSelectElement> = async (e) => {
     const target = e.target.value;
-    const userId = Cookies.get('userId')
+    const userId = Cookies.get('userId');
+    const token = Cookies.get('token');
     setNowSelected(target)
     if (target == '-3') {
       //選擇總表
-
-      const res = await getUserHabitAPI(parseInt(userId!));
+      
+      const res = await getUserHabitAPI({
+        userId:parseInt(userId!),
+        token:token!
+      });
       const succRate = (await findSuccRateAPI(parseInt(userId!))).data;
       succRate.map((item) => {
         if (item.is_success == 0) {
@@ -114,7 +119,11 @@ export const HabitRecord: FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       const userId = Cookies.get('userId')
-      const res = await getUserHabitAPI(parseInt(userId!));
+      const token = Cookies.get('token')
+      const res = await getUserHabitAPI({
+        userId:parseInt(userId!),
+        token:token!
+      });
       setHabitArr(res.data);
       const succRate = (await findSuccRateAPI(parseInt(userId!))).data;
       succRate.map((item) => {

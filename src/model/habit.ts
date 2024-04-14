@@ -14,6 +14,7 @@ export interface EditHabit {
 export interface EditHabitStatus {
     habitId: number,
     status: number,
+    token: string
 }
 
 export enum HabitStatus {
@@ -51,7 +52,8 @@ export interface CreateHabitProp {
     habitName: string,
     type:number,
     unitTypeId:number,
-    habitTarget:number
+    habitTarget:number,
+    token: string
 }
 
 export interface EditHabitProp {
@@ -60,10 +62,31 @@ export interface EditHabitProp {
     type:number,
     unitTypeId:number,
     habitTarget:number
+    token: string
 }
 
 export interface HabitSuccRate {
     is_success: number,
     succCount: string,
+}
+
+export interface HabitListDTO {
+    userId: number,
+    token: string,
+}
+
+export interface DeleteHabitDTO {
+    habitId: number,
+    token: string,
+}
+
+export interface GetOneHabitDTO {
+    habitId: number,
+    token: string,
+}
+
+export interface GetUserWeekRecordDTO {
+    habitId: number,
+    token: string,
 }
 

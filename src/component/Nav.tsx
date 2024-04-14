@@ -2,7 +2,7 @@ import { FC, MouseEventHandler, useEffect, useState, useContext } from "react";
 import image from '../assets/wtsWhiteFont.jpg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Outlet, useNavigate } from "react-router-dom";
-import { forgotPassAPI, loginAPI, loginByGoogleAPI, resetPassAPI } from "../api/UserAPI";
+import { forgotPassAPI, loginAPI, resetPassAPI } from "../api/UserAPI";
 import Cookies from 'js-cookie';
 import { UserReturn } from "../model/UserReturn";
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
@@ -22,7 +22,7 @@ export const Nav: FC = () => {
     } else {
       setIslogin(true);
     }
-  }, []); // 空数组作为依赖，表示只在组件挂载时执行一次
+  }, []); // 空字串使此component在組件render只有執行一次 
   const [className, setClassName] = useState<string>('modal');
   const [secret, setSecret] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -159,6 +159,9 @@ const handleClickHabitList = () => {
 
   const handleLogOut: MouseEventHandler<HTMLAnchorElement> = () => {
     Cookies.remove('token');
+    Cookies.remove('userId');
+    Cookies.remove('email');
+    Cookies.remove('userName');
     window.location.href = '/AH/home';
   }
   const handleToProfile: MouseEventHandler<HTMLAnchorElement> = () => {

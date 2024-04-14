@@ -14,8 +14,10 @@ import Swal from "sweetalert2";
 import { NewHabit } from "../model/habit";
 export const CreateHabit: FC = () => {
     const [unitArr, setUnitArr] = useState<UnitType[]>([]);
+    
     const getTags = async () => {
-        const tags = await getTagsAPI();
+        const token = Cookies.get('token');
+        const tags = await getTagsAPI(token!);
         setUnitArr(tags.data);
 
     }
@@ -64,6 +66,7 @@ export const CreateHabit: FC = () => {
 
     const handleCreateNewHabit = async () => {
         const userId = parseInt(Cookies.get('userId')!);
+        const token = Cookies.get('token');
         if (newHabitName == '') {
           showErrorNoText(ERROR_Habit)
         } else if (newHabitType == INIT_TYPE) {
@@ -77,7 +80,9 @@ export const CreateHabit: FC = () => {
             habitName: newHabitName,
             type: newHabitType,
             unitTypeId:unitType,
-            habitTarget:habitTarget
+            habitTarget:habitTarget,
+            token:token!
+
     
           });
     

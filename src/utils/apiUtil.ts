@@ -88,6 +88,19 @@ export const showErrorNoText = (errorTitle:string) =>{
 }
 
 
+export const showErrorToHome = (errorTitle:string) =>{
+ 
+Swal.fire({
+  icon: "error",
+  title: errorTitle
+}).then(()=>{
+  window.location.href = '/AH'
+});
+}
+
+
+
+
 
 
 export const handleError = (error: unknown,errorStr:string) =>{

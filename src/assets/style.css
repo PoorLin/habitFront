@@ -1,10 +1,6 @@
 :root {
     --primary-color: #01303f;
   }
-  @font-face {
-    font-family: jf;
-    src: url("/habitFront/src/assets/jf-jinxuanlatte-1.0-medium.otf");
-  }
   
 
 
@@ -627,27 +623,27 @@ tr:hover{
     margin-left: 25%;
     display: flex;
     align-items: center;
-    width: 45%; /* 调整宽度 */
-    border: 1px solid #ccc; /* 添加边框 */
-    border-radius: 5px; /* 添加圆角 */
-    padding: 5px; /* 添加内边距 */
+    width: 45%; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    padding: 5px; 
   }
   
   .input-container input {
-    flex: 1; /* 输入框占据剩余空间 */
+    flex: 1; 
     margin:0;
-    border: none; /* 移除输入框边框 */
-    outline: none; /* 移除输入框轮廓 */
+    border: none; 
+    outline: none; 
   }
   
   .input-container button {
-    background-color: #606061; /* 设置按钮背景颜色 */
-    color: #fff; /* 设置按钮文字颜色 */
-    border: none; /* 移除按钮边框 */
-    border-radius: 5%; /* 添加圆角 */
-    padding: 8px 15px; /* 添加内边距 */
-    margin-left: 5px; /* 调整按钮与输入框的间距 */
-    cursor: pointer; /* 将鼠标样式设为指针 */
+    background-color: #606061; 
+    color: #fff; 
+    border: none; 
+    border-radius: 5%; 
+    padding: 8px 15px; 
+    margin-left: 5px;
+    cursor: pointer; 
     font-size: 24px;
   }
 
